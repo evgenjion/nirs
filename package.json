@@ -1,0 +1,29 @@
+{
+  "name": "nirs",
+  "version": "0.0.0",
+  "description": "This is about presentations and translation of them",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evgenjion/nirs.git"
+  },
+  "keywords": [
+    "nirs",
+    "evgenjion",
+    "university"
+  ],
+  "author": "evgenjion",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evgenjion/nirs/issues"
+  },
+  "homepage": "https://github.com/evgenjion/nirs",
+  "dependencies": {
+    "express": "^4.11.2",
+    "stylus": "*",
+    "jade": "1.9.2"
+  }
+}

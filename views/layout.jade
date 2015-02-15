@@ -1,0 +1,17 @@
+//- layout.jade
+doctype html
+html
+    head
+        block title
+            title Default title
+
+        block styles
+            link(rel="stylesheet", href="style.css")
+
+        // @see "block append" and "block prepend"
+        block scripts
+            script(src="libs.js")
+            script(src="nirs.js")
+
+    body
+        block content
