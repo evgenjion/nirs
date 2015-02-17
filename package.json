@@ -25,5 +25,10 @@
     "express": "^4.11.2",
     "stylus": "*",
     "jade": "1.9.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "*",
+    "gulp-stylus": "*"
   }
 }
