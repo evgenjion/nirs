@@ -16,5 +16,4 @@ gulp.task('stylus', function() {
 });
 
 gulp.task('default', ['stylus'], function() {
-    // place code for your default task here
 });
