@@ -15,5 +15,8 @@ gulp.task('stylus', function() {
     .pipe(gulp.dest('./public/css/')); // записываем css
 });
 
-gulp.task('default', ['stylus'], function() {
+gulp.task('default', ['dev'], function() {});
+
+gulp.task('dev', ['stylus'], function() {
+    gulp.watch('./src/styl/*.styl', ['stylus']);
 });
