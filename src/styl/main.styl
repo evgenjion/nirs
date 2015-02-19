@@ -1,3 +1,59 @@
 // переменные подключаются в global.styl
 body
     color $black
+
+.content
+    overflow: hidden
+
+    &__left,
+    &__center
+        float: left
+
+.tools
+    width: 64px
+    cursor: pointer
+
+    ul
+        list-style: none
+        overflow: hidden
+        padding-bottom: 1px;
+
+    &__item
+        box-sizing: border-box
+        width: 32px
+        height: 32px
+        border: 1px solid $black
+
+        // схлопываем рамки
+        margin: 0 0 -1px -1px;
+
+        float: left
+
+        background: url(/public/images/tools-sprite.png)
+
+        &_type_ellipsis
+            background-position: 32px 0;
+
+        &_type_triangle
+            background-position: 0 -32px;
+
+        &_type_text
+            background-position: 32px -32px;
+
+        &_type_line
+            background-position: 0 -64px;
+
+        &_type_arrow
+            background-position: 32px -64px;
+
+        &_type_move
+            background-position: 0 -96px;
+
+        &_type_cursor
+            background-position: 32px -96px;
+
+.canvas
+    width: 600px;
+    height: 480px
+
+    border: 1px solid $black;
