@@ -1,2 +1,5 @@
 node_modules
 public/css
+public/js/admin/
+public/js/core/
+public/js/main.js
