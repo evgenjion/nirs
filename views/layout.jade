@@ -6,12 +6,22 @@ html
             title Default title
 
         block styles
-            link(rel="stylesheet", href="public/css/style.css")
+            link(rel="stylesheet", href="/public/css/style.css")
 
         // @see "block append" and "block prepend"
-        block scripts
-            script(src="libs.js")
-            script(src="nirs.js")
+        // scripts, needed before page load
+        block need-scripts
 
     body
         block content
+
+        //scripts that can be download after page rendering
+        block should-scripts
+            script(src="/public/js/lodash.min.js")
+            // TODO: prodution + cdn
+            // script(src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js")
+            script(src="/public/js/fabric.min.js")
+            // zepto custom build(modules: "zepto event ajax data fx fx_methods callbacks deferred")
+            script(src="/public/js/zepto.min.js")
+
+            script(data-main="/public/js/main", src="/public/js/require.js")
