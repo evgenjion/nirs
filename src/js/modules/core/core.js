@@ -1,16 +1,7 @@
 define('core/core', [], function() {
 
     // Observer pattern
-    var NIRS = new EventSupport(),
-        _drawType; // type of Object for drawing
-
-    NIRS.on('set-draw-type', function(drawType) {
-        _drawType = drawType;
-    });
-
-    NIRS.getDrawType = function() {
-        return _drawType;
-    };
+    var NIRS = new EventSupport();
 
     return NIRS;
 
