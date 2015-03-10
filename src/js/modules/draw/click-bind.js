@@ -2,6 +2,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
     $(function() {
         var DEFAULT_DRAW_TYPE = 'Rect',
             _drawType = DEFAULT_DRAW_TYPE, // type of Object for drawing
+            tools__item = $('.tools__item'),
             canvas = new fabric.Canvas('canvas');
 
         NIRS.on('set-draw-type', function(drawType) {
@@ -12,7 +13,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
             return _drawType;
         };
 
-        $('.tools__item').on('click', function(e) {
+        tools__item.on('click', function(e) {
             var type = _.last(e.target.className.split('_')),
 
                 // convert from css class names to fabric objects
@@ -22,6 +23,9 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
                     'line': 'Line', // x1, x2, y1, y2
                     'triangle': 'Triangle'
                 }[type] || DEFAULT_DRAW_TYPE;
+
+            tools__item.removeClass('active');
+            $(e.target).addClass('active');
 
             // set draw type from class name
             NIRS.trigger('set-draw-type', fabricType);
