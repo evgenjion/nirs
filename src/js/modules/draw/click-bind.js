@@ -1,6 +1,7 @@
-define('admin/click-bind', ['core/core'], function(NIRS) {
+define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
     $(function() {
-        var _drawType = 'rectangle', // type of Object for drawing
+        var DEFAULT_DRAW_TYPE = 'Rect',
+            _drawType = DEFAULT_DRAW_TYPE, // type of Object for drawing
             canvas = new fabric.Canvas('canvas');
 
         NIRS.on('set-draw-type', function(drawType) {
@@ -11,10 +12,19 @@ define('admin/click-bind', ['core/core'], function(NIRS) {
             return _drawType;
         };
 
-
         $('.tools__item').on('click', function(e) {
+            var type = _.last(e.target.className.split('_')),
+
+                // convert from css class names to fabric objects
+                fabricType = {
+                    'rectangle': 'Rect',
+                    'ellipse': 'Ellipse',
+                    'line': 'Line', // x1, x2, y1, y2
+                    'triangle': 'Triangle'
+                }[type] || DEFAULT_DRAW_TYPE;
+
             // set draw type from class name
-            NIRS.trigger('set-draw-type', _.last(e.target.className.split('_')));
+            NIRS.trigger('set-draw-type', fabricType);
         });
 
         bindDraw(canvas);
@@ -35,37 +45,27 @@ define('admin/click-bind', ['core/core'], function(NIRS) {
     function bindDraw(canvas) {
         // params of canvas object
         var canvasOffset = $(canvas.upperCanvasEl).offset(),
-            objType = '',
-            objParams = {},
+            startCoord = {},
             drawingObj;
 
         canvas.on('mouse:down', function(options) {
-            objType = {
-                'rectangle': 'Rect',
-                'ellipse': 'Circle',
-                'line': 'Line', // x1, x2, y1, y2
-                'triangle': 'Triangle'
-            }[NIRS.getDrawType()] || 'Rect';
-
-            console.log(NIRS.getDrawType());
-
-            objParams = {
+            startCoord = {
                 left: options.e.clientX - canvasOffset.left,
                 top: options.e.clientY - canvasOffset.top,
-                // 1 because of strange rendering by fabric.js with 0
-                width: 1,
-                height: 1
             };
 
-            drawingObj = new fabric[objType](objParams);
-            canvas.add(drawingObj);
+            drawingObj = draw.createDrawingObj(canvas, {
+                type: NIRS.getDrawType(),
+                left: startCoord.left,
+                top: startCoord.top
+            });
         });
 
         // TODO: _.throttle
         canvas.on('mouse:move', function(options) {
-            drawingObj && drawingObj.set({
-                width: options.e.clientX - canvasOffset.left - objParams.left,
-                height: options.e.clientY - canvasOffset.top - objParams.top
+            drawingObj && drawingObj.update({
+                left: options.e.clientX - canvasOffset.left - startCoord.left,
+                top: options.e.clientY - canvasOffset.top - startCoord.top
             });
         });
 

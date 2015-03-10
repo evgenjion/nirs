@@ -1,2 +1,2 @@
-require(['core/core', 'admin/click-bind'], function(core) {
+require(['core/core', 'draw/click-bind'], function(core) {
 });
