@@ -14,6 +14,6 @@
 #### Запуск приложения
 ``` bash
 $ npm i
-$ gulp
+$ gulp production
 $ node app.js
 ```
