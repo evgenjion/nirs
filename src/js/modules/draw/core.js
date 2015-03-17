@@ -19,7 +19,8 @@ define('draw/core', [], function() {
                     left: left,
                     top: top
                 };
-            }
+            },
+            getStartParams: _.noop
         };
     };
 
@@ -41,7 +42,8 @@ define('draw/core', [], function() {
                     left: left + rx/2,
                     top: top + ry/2
                 };
-            }
+            },
+            getStartParams: _.noop
         };
     };
 
@@ -54,15 +56,29 @@ define('draw/core', [], function() {
 
         return {
             update: function(x, y) {
-                x2 = x;
-                y2 = y;
-            },
-            getParams: function() {
+                // TODO: + or - depends on position of x or y
+                x2 = x1 + x;
+                y2 = y1 + y;
+
+                // TODO: Определить, почему fabricjs сдвигает параметр left, и top, при неизменных x1, y1
                 return {
                     x1: x1,
-                    x2: x2,
                     y1: y1,
+                    x2: x2,
                     y2: y2
+                };
+            },
+            getParams: function() {
+                return [x1,y1,x2,y2];
+            },
+            getStartParams: function() {
+                return {
+                    left: x1,
+                    top: y1,
+                    fill: 'black',
+                    stroke: 'black',
+                    strokeWidth: 5,
+                    selectable: false
                 };
             }
         };
@@ -89,9 +105,11 @@ define('draw/core', [], function() {
          *
          */
         createDrawingObj: function(canvas, params) {
-            console.log(params.type);
             var drawingObjParams = getObjParams(params.type)(params.left, params.top),
-                drawingObj = new fabric[params.type](drawingObjParams.getParams());
+                fabricParams = drawingObjParams.getParams(),
+
+                // if there is need 2 arguments(f.e. Line)
+                drawingObj = new fabric[params.type](drawingObjParams.getParams(), drawingObjParams.getStartParams());
 
             canvas.add(drawingObj);
 
