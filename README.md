@@ -17,3 +17,6 @@ $ npm i
 $ node node_modules/.bin/gulp production
 $ node --harmony app.js #запустить node с поддержкой Ecma Script 6 (@see https://github.com/lukehoban/es6features)
 ```
+
+#### Ссылка на продакшен:
+http://vm110.cloud.dig.center
