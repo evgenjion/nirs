@@ -23,14 +23,18 @@
   "homepage": "https://github.com/evgenjion/nirs",
   "dependencies": {
     "express": "^4.11.2",
+    "jade": "1.9.2",
     "lodash": "*",
-    "stylus": "*",
-    "jade": "1.9.2"
+    "ramda": "^0.13.0",
+    "stylus": "*"
   },
   "devDependencies": {
     "browser-sync": "^2.2.1",
+    "colors": "^1.0.3",
     "gulp": "^3.8.11",
     "gulp-concat": "*",
-    "gulp-stylus": "*"
+    "gulp-if": "^1.2.5",
+    "gulp-stylus": "*",
+    "gulp-uglify": "^1.1.0"
   }
 }

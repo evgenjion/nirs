@@ -1,10 +1,13 @@
-var isDev = process.env.NIRS_ENV === 'development',
+var isProduction = process.argv.slice(-1)[0] === 'production',
 
     browserSync = require('browser-sync'),
     reload      = browserSync.reload,
+    colors      = require('colors'),
 
     gulp        = require('gulp'),
+    gulpif      = require('gulp-if'),
     concat      = require('gulp-concat'),
+    uglify      = require('gulp-uglify'),
     stylus      = require('gulp-stylus');
 
 // Собираем Stylus
@@ -21,14 +24,15 @@ gulp.task('stylus', function() {
     .pipe(reload({stream: true}));
 });
 
+//TODO: можно собирать requirejs https://github.com/RobinThrift/gulp-requirejs
 gulp.task('js', function() {
     gulp.src('./src/js/modules/**/*.js')
+        .pipe(gulpif(isProduction, uglify()))
         .pipe(gulp.dest('./public/js/'))
         .pipe(reload({stream: true}));
 });
 
 gulp.task('default', ['dev'], function() {});
-
 
 gulp.task('dev', ['stylus', 'js'], function() {
     browserSync({
@@ -41,3 +45,5 @@ gulp.task('dev', ['stylus', 'js'], function() {
 });
 
 gulp.task('production', ['stylus', 'js']);
+
+console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue ));
