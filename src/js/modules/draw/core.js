@@ -30,17 +30,23 @@ define('draw/core', [], function() {
 
         return {
             update: function(x, y) {
-                rx = x;
-                ry = y;
-
-                return this.getParams();
+                return this.getParams(x, y);
             },
-            getParams: function() {
+            getParams: function(x, y) {
+                var rx = x/2,
+                    ry = y/2,
+
+                    // when mouse to the left than at start of drawing
+                    isInversed = rx < 0;
+
+                // prevents error with negative radius
+                rx = Math.abs(rx);
+
                 return {
                     rx: rx,
                     ry: ry,
-                    left: left + rx/2,
-                    top: top + ry/2
+                    left: left - (isInversed ? rx*2 : 0),
+                    top: top
                 };
             },
             getStartParams: _.noop
