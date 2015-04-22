@@ -6,6 +6,13 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
             canvas = new fabric.Canvas('canvas');
 
         NIRS.on('set-draw-type', function(drawType) {
+
+            if (drawType === 'Move') {
+                canvas.selection = true;
+            } else {
+                canvas.selection = false;
+            }
+
             _drawType = drawType;
         });
 
@@ -21,7 +28,8 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
                     'rectangle': 'Rect',
                     'ellipse': 'Ellipse',
                     'line': 'Line', // x1, x2, y1, y2
-                    'triangle': 'Triangle'
+                    'triangle': 'Triangle',
+                    'move': 'Move'
                 }[type] || DEFAULT_DRAW_TYPE;
 
             tools__item.removeClass('active');
@@ -50,16 +58,22 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
         // params of canvas object
         var canvasOffset = $(canvas.upperCanvasEl).offset(),
             startCoord = {},
+            // not needed draw if drawType === 'Move'
+            drawType,
             drawingObj;
 
         canvas.on('mouse:down', function(options) {
+            drawType = NIRS.getDrawType();
+
+            if (drawType === 'Move') return;
+
             startCoord = {
                 left: options.e.clientX - canvasOffset.left,
                 top: options.e.clientY - canvasOffset.top,
             };
 
             drawingObj = draw.createDrawingObj(canvas, {
-                type: NIRS.getDrawType(),
+                type: drawType,
                 left: startCoord.left,
                 top: startCoord.top
             });
@@ -67,6 +81,8 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
 
         // TODO: _.throttle
         canvas.on('mouse:move', function(options) {
+            if (drawType === 'Move') return;
+
             drawingObj && drawingObj.update({
                 left: options.e.clientX - canvasOffset.left - startCoord.left,
                 top: options.e.clientY - canvasOffset.top - startCoord.top
