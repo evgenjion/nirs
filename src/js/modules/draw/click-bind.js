@@ -29,6 +29,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
                     'ellipse': 'Ellipse',
                     'line': 'Line', // x1, x2, y1, y2
                     'triangle': 'Triangle',
+                    'cursor': 'Cursor',
                     'move': 'Move'
                 }[type] || DEFAULT_DRAW_TYPE;
 
@@ -65,7 +66,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
         canvas.on('mouse:down', function(options) {
             drawType = NIRS.getDrawType();
 
-            if (drawType === 'Move') return;
+            if (notNeedDrawing(drawType)) return;
 
             startCoord = {
                 left: options.e.clientX - canvasOffset.left,
@@ -81,7 +82,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
 
         // TODO: _.throttle
         canvas.on('mouse:move', function(options) {
-            if (drawType === 'Move') return;
+            if (notNeedDrawing(drawType)) return;
 
             drawingObj && drawingObj.update({
                 left: options.e.clientX - canvasOffset.left - startCoord.left,
@@ -92,5 +93,14 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
         canvas.on('mouse:up', function(options) {
             drawingObj = undefined;
         });
+    }
+
+    /**
+     * @param {String} drawType
+     *
+     * @return {Boolean} true if not needing drawing
+     */
+    function notNeedDrawing(drawType) {
+        return ~['Move', 'Cursor'].indexOf(drawType);
     }
 });
