@@ -1,4 +1,4 @@
-define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
+define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
     $(function() {
         var DEFAULT_DRAW_TYPE = 'Rect',
             _drawType = DEFAULT_DRAW_TYPE, // type of Object for drawing
@@ -6,7 +6,6 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
             canvas = new fabric.Canvas('canvas');
 
         NIRS.on('set-draw-type', function(drawType) {
-
             if (drawType === 'Move') {
                 canvas.selection = true;
             } else {
@@ -73,7 +72,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
                 top: options.e.clientY - canvasOffset.top
             };
 
-            drawingObj = draw.createDrawingObj(canvas, {
+            DRAW.start(canvas, {
                 type: drawType,
                 left: startCoord.left,
                 top: startCoord.top
@@ -84,14 +83,14 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
         canvas.on('mouse:move', function(options) {
             if (notNeedDrawing(drawType)) return;
 
-            drawingObj && drawingObj.update({
+            DRAW.update({
                 left: options.e.clientX - canvasOffset.left - startCoord.left,
                 top: options.e.clientY - canvasOffset.top - startCoord.top
             });
         });
 
         canvas.on('mouse:up', function(options) {
-            drawingObj = undefined;
+            DRAW.end();
         });
     }
 

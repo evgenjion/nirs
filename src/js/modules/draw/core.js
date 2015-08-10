@@ -103,34 +103,43 @@ define('draw/core', [], function() {
     }
 
     return {
-        /**
-         * @param {Object} params
-         * @param {String} params.type type of fabric object(Rect, Triangle...)
-         * @param {Number} params.left x coord of mousedown
-         * @param {Number} params.top y coord of mousedown
-         *
-         */
-        createDrawingObj: function(canvas, params) {
-            var drawingObjParams = getObjParams(params.type)(params.left, params.top),
-                fabricParams = drawingObjParams.getParams(),
+            /**
+             * @param {Object} params
+             * @param {Number} params.left x coord of mouseup
+             * @param {Number} params.top y coord of mouseup
+             */
+            update: function(params) {
+                // update was called before start(canvas hover before click)
+                if (!this.drawingObj) return;
+
+                var setParams = this.drawingObjParams.update(params.left, params.top);
+
+                this.drawingObj.set(setParams);
+            },
+
+            /**
+             * Object init, starts on mousedown
+             *
+             * @param {fabric.Canvas} canvas
+             * @param {Object} params
+             * @param {String} params.type draw type (Rectangle, Line, etc)
+             * @param {Number} params.left left mouse coord
+             * @param {Number} params.right right mouse coord
+             */
+            start: function (canvas, params) {
+                var drawingObjParams = this.drawingObjParams = getObjParams(params.type)(params.left, params.top);
 
                 // if there is need 2 arguments(f.e. Line)
-                drawingObj = new fabric[params.type](drawingObjParams.getParams(), drawingObjParams.getStartParams());
+                this.drawingObj = new fabric[params.type](drawingObjParams.getParams(), drawingObjParams.getStartParams());
 
-            canvas.add(drawingObj);
+                canvas.add(this.drawingObj);
+            },
 
-            return {
-                /**
-                 * @param {Object} params
-                 * @param {Number} params.left x coord of mouseup
-                 * @param {Number} params.top y coord of mouseup
-                 */
-                update: function(params) {
-                    var setParams = drawingObjParams.update(params.left, params.top);
-
-                    drawingObj.set(setParams);
-                }
-            };
-        }
+            /**
+             * Calls on mouseup
+             */
+            end: function () {
+                this.drawingObj = undefined;
+            }
     };
 });
