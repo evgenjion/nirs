@@ -59,8 +59,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
         var canvasOffset = $(canvas.upperCanvasEl).offset(),
             startCoord = {},
             // not needed draw if drawType === 'Move'
-            drawType,
-            drawingObj;
+            drawType;
 
         canvas.on('mouse:down', function(options) {
             drawType = NIRS.getDrawType();

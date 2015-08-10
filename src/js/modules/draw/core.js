@@ -25,9 +25,6 @@ define('draw/core', [], function() {
     };
 
     var Ellipse = function(left, top) {
-        var rx = 1,
-            ry = 1;
-
         return {
             update: function(x, y) {
                 return this.getParams(x, y);
@@ -66,7 +63,6 @@ define('draw/core', [], function() {
                 x2 = x1 + x;
                 y2 = y1 + y;
 
-                // TODO: Определить, почему fabricjs сдвигает параметр left, и top, при неизменных x1, y1
                 return {
                     x1: x1,
                     y1: y1,
