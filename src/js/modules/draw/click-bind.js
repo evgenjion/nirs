@@ -70,7 +70,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, draw) {
 
             startCoord = {
                 left: options.e.clientX - canvasOffset.left,
-                top: options.e.clientY - canvasOffset.top,
+                top: options.e.clientY - canvasOffset.top
             };
 
             drawingObj = draw.createDrawingObj(canvas, {

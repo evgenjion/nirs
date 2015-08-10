@@ -88,7 +88,7 @@ define('draw/core', [], function() {
                 };
             }
         };
-    }
+    };
 
     /**
      * returns params for drawing object(width, height for Rect, rx, ry for Ellipse)
@@ -100,7 +100,7 @@ define('draw/core', [], function() {
         if (type === 'Ellipse') return Ellipse;
 
         if (type === 'Line') return Line;
-    };
+    }
 
     return {
         /**
