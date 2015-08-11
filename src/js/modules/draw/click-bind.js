@@ -29,6 +29,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
                     'line': 'Line', // x1, x2, y1, y2
                     'triangle': 'Triangle',
                     'cursor': 'Cursor',
+                    'text': 'Text',
                     'move': 'Move'
                 }[type] || DEFAULT_DRAW_TYPE;
 
@@ -51,6 +52,9 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
 
     /**
      * Bind handlers to canvas events
+     *
+     *
+     * TODO: прикрутить сокеты https://learn.javascript.ru/websockets
      *
      * @param {fabric.Canvas} canvas
      */
@@ -88,8 +92,13 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
             });
         });
 
-        canvas.on('mouse:up', function(options) {
-            DRAW.end();
+        canvas.on('key:down', function (e) {
+            console.log(e);
+        });
+
+        canvas.on('mouse:up', function() {
+            if (drawType !== 'Text')
+                DRAW.end();
         });
     }
 
@@ -102,3 +111,16 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
         return ~['Move', 'Cursor'].indexOf(drawType);
     }
 });
+
+/**
+ * @typedef {String} DrawType
+ *
+ * One from list:
+ *     Rect
+ *     Ellipse
+ *     Line
+ *     Triangle
+ *     Cursor
+ *     Text
+ *     Move
+ */
