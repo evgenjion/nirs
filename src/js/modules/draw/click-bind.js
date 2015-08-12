@@ -92,8 +92,21 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
             });
         });
 
-        canvas.on('key:down', function (e) {
-            console.log(e);
+        /**
+         * only keypress gives letter, but it doesn't fires on Backspace
+         */
+        $(document).on({
+            keypress: function (e) {
+                DRAW.update({
+                    text: String.fromCharCode(e.which)
+                });
+            },
+            keydown: function (e) {
+                // Backspace
+                if (e.which === 8) DRAW.update({
+                    backspace: true
+                });
+            }
         });
 
         canvas.on('mouse:up', function() {

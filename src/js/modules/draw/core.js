@@ -5,6 +5,7 @@ define('draw/core', [], function() {
      * @property {Function} update - updates shape params
      * @property {Function} getParams - returns shape params for Fabric.js (like fabric.Rect)
      * @property {Function} getStartParams - need for some shapes at start of drawing
+     * @property {Function} end - calls on end of drawing/typing(for text)
      *
      */
 
@@ -13,19 +14,20 @@ define('draw/core', [], function() {
       *
       * common interface for all shapes
       */
-    var Shape = function () {};
+    var Shape = function (left, top) {};
 
     Shape.prototype.update = _.noop;
     Shape.prototype.getParams = _.noop;
     Shape.prototype.getStartParams = _.noop;
+    Shape.prototype.end = _.noop;
 
     var Rect = function(left, top) {
         var width = 1,
             height = 1;
 
-        this.update = function(x, y) {
-            width = x;
-            height = y;
+        this.update = function(params) {
+            width = params.left;
+            height = params.top;
 
             return this.getParams();
         };
@@ -42,8 +44,8 @@ define('draw/core', [], function() {
     extend(Rect, Shape);
 
     var Ellipse = function(left, top) {
-        this.update = function(x, y) {
-            return this.getParams(x, y);
+        this.update = function(params) {
+            return this.getParams(params.left, params.top);
         };
 
         this.getParams = function(x, y) {
@@ -72,7 +74,10 @@ define('draw/core', [], function() {
             x2 = left+1,
             y2 = top+1;
 
-        this.update = function(x, y) {
+        this.update = function(params) {
+            var x = params.left,
+                y = params.top;
+
             x2 = x1 + x;
             y2 = y1 + y;
 
@@ -101,7 +106,39 @@ define('draw/core', [], function() {
     };
     extend(Line, Shape);
 
-    var Text = function () {
+    var Text = function(left, top) {
+        this.__text = '|';
+
+        this.update = function (params) {
+
+            if (params.backspace) {
+                this.__text = this.__text.slice(0, -2) + '|';
+            } else {
+                if(!params.text) return;
+
+                this.__text = this.__text.slice(0, -1) + params.text + '|';
+            }
+
+            return {
+                text: this.__text
+            };
+        };
+
+        this.getParams = function () {
+            return '|';
+        };
+
+        this.getStartParams = function () {
+            return {
+                left: left,
+                top: top
+            };
+        };
+
+        // TODO: fix
+        this.end = function () {
+            this.__text = this.__text.slice(0, -1);
+        };
     };
     extend(Text, Shape);
 
@@ -129,7 +166,7 @@ define('draw/core', [], function() {
             // update was called before start(canvas hover before click)
             if (!this.drawingObj) return;
 
-            var setParams = this.drawingObjParams.update(params.left, params.top, params.text);
+            var setParams = this.drawingObjParams.update(params);
 
             this.drawingObj.set(setParams);
         },
