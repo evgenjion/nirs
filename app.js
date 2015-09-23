@@ -12,7 +12,7 @@ app.get('/', function(req, res) {
 
 var path = require('path');
 
-app.use(express.static(__dirname, '/public'));
+app.use('/public', express.static(__dirname + '/public'));
 
 var server = app.listen(8080, function () {
     var host = server.address().address;
