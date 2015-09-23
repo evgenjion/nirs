@@ -24,13 +24,14 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
 
                 // convert from css class names to fabric objects
                 fabricType = {
-                    'rectangle': 'Rect',
-                    'ellipse': 'Ellipse',
-                    'line': 'Line', // x1, x2, y1, y2
-                    'triangle': 'Triangle',
-                    'cursor': 'Cursor',
-                    'text': 'Text',
-                    'move': 'Move'
+                    rectangle: 'Rect',
+                    ellipse: 'Ellipse',
+                    line: 'Line', // x1, x2, y1, y2
+                    triangle: 'Triangle',
+                    cursor: 'Cursor',
+                    text: 'Text',
+                    arrow: 'Arrow',
+                    move: 'Move'
                 }[type] || DEFAULT_DRAW_TYPE;
 
             tools__item.removeClass('active');

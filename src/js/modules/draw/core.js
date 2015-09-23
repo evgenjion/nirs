@@ -20,6 +20,7 @@ define('draw/core', [], function() {
     Shape.prototype.getParams = _.noop;
     Shape.prototype.getStartParams = _.noop;
     Shape.prototype.end = _.noop;
+    Shape.prototype.getDrawingFunctionName = _.noop;
 
     var Rect = function(left, top) {
         var width = 1,
@@ -99,12 +100,91 @@ define('draw/core', [], function() {
                 top: y1,
                 fill: 'black',
                 stroke: 'black',
-                strokeWidth: 5,
+                strokeWidth: 3,
                 selectable: false
             };
         }
     };
     extend(Line, Shape);
+
+    var Arrow = function (initialLeft, initialTop) {
+        var startParams = [
+            { x: 0  ,  y:  0  },
+            { x: 7,    y:  0  },
+            { x: 1 ,   y:  3  },
+            { x: 1 ,   y: -3  },
+            { x: 7,    y:  0  }
+        ];
+
+        this.update = function(params) {
+            var points = [].concat(startParams),
+
+                // здесь left и top - отклонение от начальной точки
+                left = params.left,
+                top = params.top,
+
+                // magicaly sets points[0] deep in fabric.js
+                ZERO_POINT_X = points[0].x,
+                ZERO_POINT_Y = points[0].y;
+
+            var len = Math.sqrt(
+                Math.pow(left, 2) + Math.pow(top, 2)
+            );
+
+            points[1] = { x: ZERO_POINT_X + len    ,  y: ZERO_POINT_Y      };
+            points[2] = { x: ZERO_POINT_X + len - 6,  y: ZERO_POINT_Y + 3  };
+            points[3] = { x: ZERO_POINT_X + len - 6,  y: ZERO_POINT_Y - 3  };
+            points[4] = { x: ZERO_POINT_X + len    ,  y: ZERO_POINT_Y      };
+
+            //Находим косинус угла между векторами
+            // initial vector
+            var A = [100, 0],
+
+                // result vector
+                B = [left, top],
+
+                vectorsMultiply = A[0] * B[0] + A[1] * B[1],
+                initialVectorModule = Math.sqrt(A[0] * A[0] + A[1] * A[1]),
+                resultVectorModule  = Math.sqrt(B[0] * B[0] + B[1] * B[1]),
+
+                cos = vectorsMultiply / (initialVectorModule * resultVectorModule),
+
+                angle = Math.acos(cos) * (180 / Math.PI);
+
+            /*
+             * Угол находится в диапазоне от 0 до 180 градусов
+             *
+             * если курсор ниже начальной позиции - то значение положительное(по часовой)
+             *
+             * если выше – то против
+             */
+            if (top < 0) {
+                angle = -angle;
+            }
+
+            return {
+                // points array
+                points: points,
+                angle: angle
+            };
+        };
+
+        this.getParams = function() {
+            return startParams;
+        };
+
+        this.getStartParams = function(){
+            return {
+                left: initialLeft,
+                top: initialTop,
+                points: startParams,
+                stroke: 'black'
+            };
+        };
+
+        this.getDrawingFunctionName = function(){ return 'Polygon' };
+    };
+    extend(Arrow, Line);
 
     var Text = function(left, top) {
         this.__text = '|';
@@ -143,17 +223,21 @@ define('draw/core', [], function() {
     extend(Text, Shape);
 
     /**
-     * returns params for drawing object(width, height for Rect, rx, ry for Ellipse)
+     * @returns {Function|undefined} Constructor for drawing object(width, height for Rect, rx, ry for Ellipse)
      */
     function getObjParams(type) {
         // TODO: прокидывать стартовую позицию
         if (~['Rect', 'Triangle'].indexOf(type)) return Rect;
 
-        if (type === 'Ellipse') return Ellipse;
+        switch (type) {
+            case 'Rect':
+            case 'Triangle': return Rect;
 
-        if (type === 'Line') return Line;
-
-        if (type === 'Text') return Text;
+            case 'Ellipse': return Ellipse;
+            case 'Line': return Line;
+            case 'Arrow': return Arrow;
+            case 'Text': return Text;
+        }
     }
 
     return {
@@ -182,10 +266,14 @@ define('draw/core', [], function() {
          */
         start: function (canvas, params) {
             var Shape = getObjParams(params.type),
-                drawingObjParams = this.drawingObjParams = new Shape(params.left, params.top);
+                drawingObjParams = this.drawingObjParams = new Shape(params.left, params.top),
 
-            // if there is need 2 arguments(f.e. Line)
-            this.drawingObj = new fabric[params.type](drawingObjParams.getParams(), drawingObjParams.getStartParams());
+                DrawingConstructor = fabric[params.type];
+
+            // fabric.Arrow doesnt exist, but we have this type
+            if (!DrawingConstructor) DrawingConstructor = fabric[drawingObjParams.getDrawingFunctionName()];
+
+            this.drawingObj = new DrawingConstructor(drawingObjParams.getParams(), drawingObjParams.getStartParams());
 
             canvas.add(this.drawingObj);
         },
