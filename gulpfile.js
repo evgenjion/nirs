@@ -6,9 +6,14 @@ var isProduction = process.argv.slice(-1)[0] === 'production',
 
     gulp        = require('gulp'),
     gulpif      = require('gulp-if'),
+
     concat      = require('gulp-concat'),
     uglify      = require('gulp-uglify'),
+    es          = require('event-stream'),
+
+    typescript  = require('gulp-typescript'),
     stylus      = require('gulp-stylus');
+
 
 // Собираем Stylus
 gulp.task('stylus', function() {
@@ -19,21 +24,33 @@ gulp.task('stylus', function() {
          // { use: ['nib'] }
         )) // собираем stylus
     .on('error', console.log) // Если есть ошибки, выводим и продолжаем
-    //.pipe(myth()) // добавляем префиксы - http://www.myth.io/
     .pipe(gulp.dest('./public/css/')) // записываем css
     .pipe(reload({stream: true}));
 });
 
 //TODO: можно собирать requirejs https://github.com/RobinThrift/gulp-requirejs
 gulp.task('js', function() {
-    gulp.src('./src/js/modules/**/*.js')
-        .pipe(gulpif(isProduction, uglify()))
-        .pipe(gulp.dest('./public/js/'))
-        .pipe(reload({stream: true}));
+
+    function ts() {
+        return gulp.src('./src/js/modules/**/*.ts')
+            .pipe(typescript({}));
+    }
+
+    function js() {
+        return gulp.src('./src/js/modules/**/*.js');
+    }
+
+    return es.merge(ts(), js())
+            .pipe(gulpif(isProduction, uglify()))
+            .pipe(gulp.dest('./public/js/'))
+            .pipe(reload({stream: true}));
 });
 
-gulp.task('default', ['dev'], function() {});
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - -
 
+
+gulp.task('default', ['dev'], function() {});
 gulp.task('dev', ['stylus', 'js'], function() {
     browserSync({
        proxy: "localhost:8080"
