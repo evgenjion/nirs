@@ -33,7 +33,8 @@ gulp.task('js', function() {
 
     function ts() {
         return gulp.src('./src/js/modules/**/*.ts')
-            .pipe(typescript({}));
+            .pipe(typescript({}))
+            .on('error', console.error);
     }
 
     function js() {
@@ -58,6 +59,8 @@ gulp.task('dev', ['stylus', 'js'], function() {
 
     gulp.watch('./src/styl/*.styl', ['stylus']);
     gulp.watch('./src/js/**/*.js', ['js']).on('change', reload);
+    gulp.watch('./src/js/**/*.ts', ['js']).on('change', reload);
+
     gulp.watch('./views/**/*.jade').on('change', reload);
 });
 
