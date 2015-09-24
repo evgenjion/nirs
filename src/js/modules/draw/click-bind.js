@@ -1,44 +1,15 @@
-define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
+define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Controller) {
     $(function() {
-        var DEFAULT_DRAW_TYPE = 'Rect',
-            _drawType = DEFAULT_DRAW_TYPE, // type of Object for drawing
-            tools__item = $('.tools__item'),
-            canvas = new fabric.Canvas('canvas');
-
-        NIRS.on('set-draw-type', function(drawType) {
-            if (drawType === 'Move') {
-                canvas.selection = true;
-            } else {
-                canvas.selection = false;
-            }
-
-            _drawType = drawType;
-        });
-
-        NIRS.getDrawType = function() {
-            return _drawType;
-        };
+        var tools__item = $('.tools__item'),
+            canvas = Controller.getCanvas();
 
         tools__item.on('click', function(e) {
-            var type = _.last(e.target.className.split('_')),
-
-                // convert from css class names to fabric objects
-                fabricType = {
-                    rectangle: 'Rect',
-                    ellipse: 'Ellipse',
-                    line: 'Line', // x1, x2, y1, y2
-                    triangle: 'Triangle',
-                    cursor: 'Cursor',
-                    text: 'Text',
-                    arrow: 'Arrow',
-                    move: 'Move'
-                }[type] || DEFAULT_DRAW_TYPE;
+            var type = _.last(e.target.className.split('_'));
 
             tools__item.removeClass('active');
             $(e.target).addClass('active');
 
-            // set draw type from class name
-            NIRS.trigger('set-draw-type', fabricType);
+            Controller.setDrawType(type);
         });
 
         bindDraw(canvas);
@@ -46,6 +17,7 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
         // precent objects selection
         canvas.selection = false;
 
+        // TODO: поставить нормальный таймер
         setInterval(function() {
             canvas.renderAll();
         }, 15);
@@ -62,79 +34,46 @@ define('draw/click-bind', ['core/core', 'draw/core'], function(NIRS, DRAW) {
     function bindDraw(canvas) {
         // params of canvas object
         var canvasOffset = $(canvas.upperCanvasEl).offset(),
-            startCoord = {},
-            // not needed draw if drawType === 'Move'
-            drawType;
+            startCoord = {};
 
         canvas.on('mouse:down', function(options) {
-            drawType = NIRS.getDrawType();
-
-            if (notNeedDrawing(drawType)) return;
-
             startCoord = {
                 left: options.e.clientX - canvasOffset.left,
                 top: options.e.clientY - canvasOffset.top
             };
 
-            DRAW.start(canvas, {
-                type: drawType,
-                left: startCoord.left,
-                top: startCoord.top
-            });
+            Controller.drawingStart(startCoord);
         });
 
         // TODO: _.throttle
         canvas.on('mouse:move', function(options) {
-            if (notNeedDrawing(drawType)) return;
-
-            DRAW.update({
+            Controller.drawingUpdate({
                 left: options.e.clientX - canvasOffset.left - startCoord.left,
                 top: options.e.clientY - canvasOffset.top - startCoord.top
             });
         });
 
         /**
-         * only keypress gives letter, but it doesn't fires on Backspace
+         * только событие keypress позволяет увидеть введенный символ
+         * но он не видит Backspace, поэтому нужен keydown
+         *
          */
         $(document).on({
             keypress: function (e) {
-                DRAW.update({
+                Controller.drawingUpdate({
                     text: String.fromCharCode(e.which)
                 });
             },
             keydown: function (e) {
                 // Backspace
-                if (e.which === 8) DRAW.update({
+                if (e.which === 8) Controller.drawingUpdate({
                     backspace: true
                 });
             }
         });
 
         canvas.on('mouse:up', function() {
-            if (drawType !== 'Text')
-                DRAW.end();
+            Controller.drawingEnd();
         });
     }
-
-    /**
-     * @param {String} drawType
-     *
-     * @return {Boolean} true if not needing drawing
-     */
-    function notNeedDrawing(drawType) {
-        return ~['Move', 'Cursor'].indexOf(drawType);
-    }
 });
-
-/**
- * @typedef {String} DrawType
- *
- * One from list:
- *     Rect
- *     Ellipse
- *     Line
- *     Triangle
- *     Cursor
- *     Text
- *     Move
- */
