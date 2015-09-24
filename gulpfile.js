@@ -33,8 +33,11 @@ gulp.task('js', function() {
 
     function ts() {
         return gulp.src('./src/js/modules/**/*.ts')
-            .pipe(typescript({}))
-            .on('error', console.error);
+            .pipe(typescript({
+                module: 'commonjs',
+                isolatedModules: true
+            }))
+            .on('error', function(e) { console.error(e.message); });
     }
 
     function js() {
