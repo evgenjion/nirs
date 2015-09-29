@@ -36,6 +36,14 @@ define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Contr
         var canvasOffset = $(canvas.upperCanvasEl).offset(),
             startCoord = {};
 
+        // FIXME: Поправить урл
+        var socket = new WebSocket("ws://localhost:8081/draw");
+
+        socket.onopen = function() {
+            console.log('ws: соединение установлено');
+        };
+
+
         canvas.on('mouse:down', function(options) {
             startCoord = {
                 left: options.e.clientX - canvasOffset.left,

@@ -1,18 +1,22 @@
 var express = require('express'),
     jade = require('jade'),
-    app = express();
 
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function(req, res) {
-     res.send(jade.renderFile('views/index.jade', {
-        // can be used in index.jade
-        param: 'param qwerty ololo'
-     }));
-});
+    app = express(),
+    session = require('express-session'),
 
-var path = require('path');
+    socketServer = require('./backend/socket-server'),
 
-app.use('/public', express.static(__dirname + '/public'));
+    router;
+
+app.use(session({
+    secret: 'qwerty - the best secret key ever!',
+    resave: false,
+    saveUninitialized: true,
+    // TODO: разобраться, в дев режиме без него не работает
+    cookie: { secure: false }
+}));
+
+router = require('./backend/router')(app);
 
 var server = app.listen(8080, function () {
     var host = server.address().address;

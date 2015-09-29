@@ -23,10 +23,12 @@
   "homepage": "https://github.com/evgenjion/nirs",
   "dependencies": {
     "express": "^4.11.2",
+    "express-session": "^1.11.3",
     "jade": "1.9.2",
     "lodash": "*",
     "ramda": "^0.13.0",
-    "stylus": "*"
+    "stylus": "*",
+    "ws": "^0.8.0"
   },
   "devDependencies": {
     "browser-sync": "^2.2.1",
