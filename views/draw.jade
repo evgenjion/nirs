@@ -21,3 +21,12 @@ block content
         .side-menu_right
 
     .meta= viewInfo
+
+block should-scripts
+    script(src="/public/js/lodash.min.js")
+    //- TODO: prodution + cdn
+    //- script(src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js")
+    script(src="/public/js/fabric.js")
+    //- zepto custom build(modules: "zepto event ajax data fx fx_methods callbacks deferred")
+    script(src="/public/js/zepto.min.js")
+    script(data-main="/public/js/main", src="/public/js/require.js")

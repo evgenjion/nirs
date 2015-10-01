@@ -1,0 +1,13 @@
+extends ./layout
+
+block title
+    title NIRS – welcome
+
+block content
+    .main-popup
+        .main-popup__inner
+
+            a.main-popup__btn.main-popup__create-canvas(href='/draw')
+                | Создать новую доску
+            a.main-popup__btn.main-popup__my-boards
+                | Мои доски

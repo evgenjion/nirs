@@ -9,8 +9,12 @@ var express = require('express'),
 
 module.exports = (app) => {
 
-    // respond with "hello world" when a GET request is made to the homepage
     app.get('/', (req, res) => {
+        res.send(jade.renderFile('views/main.jade'));
+    });
+
+    // respond with "hello world" when a GET request is made to the homepage
+    app.get('/draw', (req, res) => {
         var session = req.session;
 
         if (session.viewTimes === undefined)
@@ -22,8 +26,7 @@ module.exports = (app) => {
             viewInfo: session.viewTimes || 'Страница не была посещена раннее'
         };
 
-        res.send(jade.renderFile('views/index.jade', params));
-
+        res.send(jade.renderFile('views/draw.jade', params));
     });
 
     var rootFoldier = __dirname.split('/').slice(0, -1).join('/');

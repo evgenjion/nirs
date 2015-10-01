@@ -1,6 +1,7 @@
 // переменные подключаются в global.styl
 body
     color $black
+    font-family Arial
 
 .content
     overflow: hidden
@@ -72,3 +73,53 @@ body
     padding: 20px 0 0 65px
 
     color: $dark_gray
+
+
+
+// TODO: Separate *.styl files for jade templates
+// main.jade begin:
+
+.main-popup
+    // выравниваем поцентру, но с фиксированным отступом от верха
+    position: absolute
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+
+    margin: auto
+    margin-top: 100px
+
+    width: 400px
+    height: 300px
+
+    border-radius: 8px
+
+    box-shadow: 0px 0px 6px 4px $dark_blue
+
+    &__inner
+        padding-top: 60px
+
+    &__btn
+        font-size: 16px
+        font-weight: normal
+
+        text-decoration: none
+        text-align: center
+        color: #fff
+
+        display: block
+        line-height: 40px
+        width: 80%
+        margin: 30px auto 0
+
+        background: $dark_blue
+
+        border-radius: 5px
+
+        transition: .3s ease-out
+
+    &__btn:hover
+        text-shadow 1px 1px 1px #fff
+
+        border-radius 0
