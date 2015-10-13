@@ -32,8 +32,8 @@ module.exports = BoardsDAO;
 
 /**
  * @typedef {Object} BoardEntity
- * @property {String} id
- * @property {BoardAction[]}
+ * @property {String} id - уникальный идентификатор доски
+ * @property {BoardAction[]} hist - история действий, произведенных в доске
  */
 
 /**
@@ -45,7 +45,7 @@ module.exports = BoardsDAO;
  */
 
 /**
- * @typedef {Array} Coords
+ * @typedef {String[]} Coords
  * @property {Number} 0 - x координата
  * @property {Number} 1 - y координата
  */
