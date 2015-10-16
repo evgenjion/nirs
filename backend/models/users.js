@@ -8,7 +8,10 @@ var UsersDAO = require('../dao/users');
 
 class Users {
     constructor() {
+        if (Users.__instance) return Users.__instance;
         this._DAO = new UsersDAO();
+
+        Users.__instance = this;
     }
 
     /**

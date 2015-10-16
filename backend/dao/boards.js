@@ -6,25 +6,32 @@
 
 'use strict';
 
+var _ = require('lodash');
+
 class BoardsDAO {
+
+    constructor() {
+        if (BoardsDAO.__instance) return BoardsDAO.__instance;
+        this._DB = [];
+
+        BoardsDAO.__instance = this;
+    }
+
     /**
      * @FIXME real data
      *
-     * @returns {BoardEntity}
+     * @returns {BoaуrdEntity}
      */
     getByHash(hash) {
-        return {
-            id: hash,
-            title: 'Доска про линейную алгебру',
-            owner: 'sess-id:dfj193nffds13',
-            hist: [
-                {
-                    type: 'Rect',
-                    startCoord: [10, 10],
-                    endCoord: [400, 100]
-                }
-            ]
-        };
+        return _.find(this._DB, { id: hash });
+    }
+
+    getAll() {
+        return this._DB;
+    }
+
+    insertBoard(board) {
+        this._DB.push(board);
     }
 }
 
@@ -33,7 +40,8 @@ module.exports = BoardsDAO;
 /**
  * @typedef {Object} BoardEntity
  * @property {String} id - уникальный идентификатор доски
- * @property {BoardAction[]} hist - история действий, произведенных в доске
+ * @property {String} owner - sessionID владельца
+ * @property {BoardAction[]} [hist] - история действий, произведенных в доске
  */
 
 /**
