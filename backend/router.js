@@ -13,21 +13,8 @@ module.exports = (app) => {
         res.send(jade.renderFile('views/main.jade'));
     });
 
-    // respond with "hello world" when a GET request is made to the homepage
-    app.get('/draw', (req, res) => {
-        var session = req.session;
-
-        if (session.viewTimes === undefined)
-            session.viewTimes = 0;
-        else
-            session.viewTimes++;
-
-        var params = {
-            viewInfo: session.viewTimes || 'Страница не была посещена раннее'
-        };
-
-        res.send(jade.renderFile('views/draw.jade', params));
-    });
+    // Подключаем контроллеры
+    require('./controllers/boards')(app);
 
     var rootFoldier = __dirname.split('/').slice(0, -1).join('/');
 
