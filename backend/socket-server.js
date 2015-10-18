@@ -1,32 +1,31 @@
-var WebSocketServer = new require('ws');
+/**
+ * @param {Function} sessionHandler – middleware для сессий, тот же самый, что и для главного сервера
+ */
+module.exports = (sessionHandler) => {
+    var WebSocketServer = new require('ws');
 
-// подключенные клиенты
-var clients = {};
-
-// WebSocket-сервер на порту 8081
-var webSocketServer = new WebSocketServer.Server({
-    port: 8081
-});
-
-// TODO: сессии
-webSocketServer.on('connection', function(ws) {
-
-    //console.log(ws);
-
-    var id = Math.random();
-    clients[id] = ws;
-    console.log("Подсоединили сокет: " + id);
-
-    ws.on('message', function(message) {
-        console.log('получено сообщение ' + message);
-
-        for (var key in clients) {
-            clients[key].send(message);
-        }
+    // WebSocket-сервер на порту 8081
+    var webSocketServer = new WebSocketServer.Server({
+        port: 8081
     });
 
-    ws.on('close', function() {
-        console.log('соединение закрыто ' + id);
-        delete clients[id];
+    webSocketServer.on('connection', function(ws) {
+        var req = ws.upgradeReq;
+        var res = { writeHead: {} }; // Particularly nasty
+
+        sessionHandler(req, res, function (err) {
+            console.log('WS Session:');
+            console.log(req.sessionID);
+
+            // console.log(req.session);
+
+            ws.on('message', function(message) {
+                console.log('получено сообщение ' + message);
+            });
+
+            ws.on('close', function() {
+                console.log('соединение закрыто ' + req.sessionID);
+            });
+        });
     });
-});
+};

@@ -4,17 +4,17 @@ var express = require('express'),
     app = express(),
     session = require('express-session'),
 
-    socketServer = require('./backend/socket-server'),
+    sessionHandler = session({
+        secret: 'qwerty - the best secret key ever!',
+        resave: false,
+        saveUninitialized: true,
+        // TODO: разобраться, в дев режиме без него не работает
+        cookie: { secure: false }
+    }),
 
     router;
 
-app.use(session({
-    secret: 'qwerty - the best secret key ever!',
-    resave: false,
-    saveUninitialized: true,
-    // TODO: разобраться, в дев режиме без него не работает
-    cookie: { secure: false }
-}));
+app.use(sessionHandler);
 
 router = require('./backend/router')(app);
 
@@ -24,3 +24,5 @@ var server = app.listen(8080, function () {
 
     console.log('Example app listening at http://%s:%s', host, port);
 });
+
+socketServer = require('./backend/socket-server')(sessionHandler);
