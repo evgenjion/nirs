@@ -14,6 +14,10 @@ class Users {
         Users.__instance = this;
     }
 
+    getAll() {
+        return this._DAO.getAll();
+    }
+
     /**
      * @returns {UserEntity} объект-оболочку для отдельной доски
      */
@@ -23,6 +27,16 @@ class Users {
 
     getUserHist(hash) {
         return this._DAO.getBoards(hash);
+    }
+
+    /**
+     * @param {Object} params
+     * @param {String} params.sessID - sessionID пользователя
+     * @param {String} params.boardID - id доски, которую добавляет пользователь
+     *
+     */
+    addBoard(params) {
+        return this._DAO.addBoard(params.sessID, params.boardID);
     }
 }
 

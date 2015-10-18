@@ -7,7 +7,7 @@ var jade = require('jade');
 module.exports = (app) => {
 
     app.get('/boards/paint/:id', (req, res) => {
-        console.log(req.params.id);
+        //console.log(req.params.id);
 
         var session = req.session;
 
@@ -38,13 +38,17 @@ module.exports = (app) => {
                             .digest('hex')
                             .slice(0, 10);
 
-        // TODO: писать еще в модель users
+        var sessID = req.sessionID;
+
         boardsModel.insertBoard({
             id: boardID,
-            owner: req.sessionID
+            owner: sessID
         });
 
-        console.log(boardsModel.getAll());
+        usersModel.addBoard({
+            sessID,
+            boardID
+        });
 
         res.redirect('/boards/paint/' + boardID);
     });

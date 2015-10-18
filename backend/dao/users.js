@@ -6,7 +6,21 @@
 
 'use strict';
 
+var _ = require('lodash');
+
 class UsersDAO {
+    constructor() {
+        if (UsersDAO.__instance) return UsersDAO.__instance;
+
+        this._DB = [];
+
+        UsersDAO.__instance = this;
+    }
+
+    getAll() {
+        return this._DB;
+    }
+
     /**
      * @FIXME real data
      *
@@ -15,14 +29,9 @@ class UsersDAO {
      * @returns {UserEntity}
      */
     getAllByHash(hash) {
-        return {
-            sessionID: hash,
-            name: 'Василевс',
-            boards: [
-                'dn123n' + hash + 'snbq31',
-                'b31bl1' + hash + 'nfabwj'
-            ]
-        };
+        return _.find(this._DB, {
+            sessionID: hash
+        });
     }
 
     /**
@@ -37,6 +46,39 @@ class UsersDAO {
             'sd2k3f23j',
             'fdkj24q3o'
         ];
+    }
+
+    /**
+     * @param {String} sessID - sessionID пользователя
+     * @param {String} boardID - id доски, которую добавляет пользователь
+     *
+     */
+    addBoard(sessID, boardID) {
+        var usr = _.find(this._DB, {
+            sessionID: sessID
+        });
+
+        // Если пользователя нет - добавлем
+        if (!usr) {
+            usr = this.addUser({
+                sessionID: sessID,
+                boards: []
+            });
+        }
+
+        usr.boards.push(boardID);
+    }
+
+    /**
+     * @param {UserEntity} user
+     *
+     * @returns {UserEntity} ссылка на конкретного пользователя
+     */
+    addUser(user) {
+        this._DB.push(user);
+
+        // TODO: обратить внимание, когда будет БД
+        return user;
     }
 }
 
