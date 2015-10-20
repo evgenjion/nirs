@@ -8,8 +8,6 @@ module.exports = (app) => {
 
     app.get('/boards/paint/:id', (req, res) => {
         //console.log(req.params.id);
-        console.log('Express session:');
-        console.log(req.sessionID);
 
         var session = req.session;
 

@@ -14,11 +14,6 @@ module.exports = (sessionHandler) => {
         var res = { writeHead: {} }; // Particularly nasty
 
         sessionHandler(req, res, function (err) {
-            console.log('WS Session:');
-            console.log(req.sessionID);
-
-            // console.log(req.session);
-
             ws.on('message', function(message) {
                 console.log('получено сообщение ' + message);
             });
