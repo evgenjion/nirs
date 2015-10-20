@@ -4,7 +4,7 @@
 
 'use strict';
 
-var UsersDAO = require('../dao/users');
+let UsersDAO = require('../dao/users');
 
 class Users {
     constructor() {

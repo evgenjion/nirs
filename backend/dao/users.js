@@ -6,7 +6,7 @@
 
 'use strict';
 
-var _ = require('lodash');
+let _ = require('lodash');
 
 class UsersDAO {
     constructor() {
@@ -53,7 +53,7 @@ class UsersDAO {
      *
      */
     addBoard(sessID, boardID) {
-        var usr = _.find(this._DB, {
+        let usr = _.find(this._DB, {
             sessionID: sessID
         });
 

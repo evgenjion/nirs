@@ -4,7 +4,7 @@
 
 'use strict';
 
-var BoardsDAO = require('../dao/boards');
+let BoardsDAO = require('../dao/boards');
 
 /**
  * @Singletone

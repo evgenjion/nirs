@@ -4,7 +4,9 @@
  * @param {Express} app - инстанс express
  */
 
-var express = require('express'),
+'use strict';
+
+let express = require('express'),
     jade = require('jade');
 
 module.exports = (app) => {
@@ -16,7 +18,7 @@ module.exports = (app) => {
     // Подключаем контроллеры
     require('./controllers/boards')(app);
 
-    var rootFoldier = __dirname.split('/').slice(0, -1).join('/');
+    let rootFoldier = __dirname.split('/').slice(0, -1).join('/');
 
     app.use('/public', express.static(rootFoldier + '/public'));
 

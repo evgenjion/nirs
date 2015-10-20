@@ -1,7 +1,7 @@
 'use strict';
 
-var crypto = require('crypto');
-var jade = require('jade');
+let crypto = require('crypto');
+let jade = require('jade');
 
 /**
  * @param {Object} app - express server
@@ -31,18 +31,18 @@ module.exports = (app) => {
      * Создаем уникальный id для доски
      */
     app.get('/boards/new', (req, res) => {
-        var BoardsModel = require('../models/boards');
-        var boardsModel = new BoardsModel();
+        let BoardsModel = require('../models/boards');
+        let boardsModel = new BoardsModel();
 
-        var UsersModel = require('../models/users');
-        var usersModel = new UsersModel();
+        let UsersModel = require('../models/users');
+        let usersModel = new UsersModel();
 
-        var boardID = crypto.createHash('md5')
+        let boardID = crypto.createHash('md5')
                             .update(Math.random() + '')
                             .digest('hex')
                             .slice(0, 10);
 
-        var sessID = req.sessionID;
+        let sessID = req.sessionID;
 
         boardsModel.insertBoard({
             id: boardID,
