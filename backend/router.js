@@ -10,7 +10,7 @@ var express = require('express'),
 module.exports = (app) => {
 
     app.get('/', (req, res) => {
-        res.send(jade.renderFile('views/main.jade'));
+        res.send(jade.renderFile('./backend/views/main.jade'));
     });
 
     // Подключаем контроллеры

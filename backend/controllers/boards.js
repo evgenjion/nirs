@@ -20,7 +20,7 @@ module.exports = (app) => {
             viewInfo: session.viewTimes || 'Страница не была посещена раннее'
         };
 
-        res.send(jade.renderFile('views/draw.jade', params));
+        res.send(jade.renderFile('./backend/views/draw.jade', params));
     });
 
     /**
