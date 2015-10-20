@@ -5,17 +5,18 @@ block title
 
 block content
     .content
-        .content__left
-            .tools
-                ul
-                    li.tools__item.tools__item_type_rectangle.active
-                    li.tools__item.tools__item_type_ellipse
-                    li.tools__item.tools__item_type_triangle
-                    li.tools__item.tools__item_type_text
-                    li.tools__item.tools__item_type_line
-                    li.tools__item.tools__item_type_arrow
-                    li.tools__item.tools__item_type_move
-                    li.tools__item.tools__item_type_cursor
+        if (isOwner)
+            .content__left
+                .tools
+                    ul
+                        li.tools__item.tools__item_type_rectangle.active
+                        li.tools__item.tools__item_type_ellipse
+                        li.tools__item.tools__item_type_triangle
+                        li.tools__item.tools__item_type_text
+                        li.tools__item.tools__item_type_line
+                        li.tools__item.tools__item_type_arrow
+                        li.tools__item.tools__item_type_move
+                        li.tools__item.tools__item_type_cursor
         .content__center
             canvas#canvas(width="600", height="400") Обновите свой браузер для поддержки canvas
         .side-menu_right
