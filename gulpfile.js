@@ -17,7 +17,7 @@ var isProduction = process.argv.slice(-1)[0] === 'production',
 
 // Собираем Stylus
 gulp.task('stylus', function() {
-    gulp.src('./src/styl/*.styl')
+    gulp.src('./frontend/styl/*.styl')
         // склеиваем, чтобы подтянулись конфиги
         .pipe(concat('style.styl'))
         .pipe(stylus(
@@ -32,7 +32,7 @@ gulp.task('stylus', function() {
 gulp.task('js', function() {
 
     function ts() {
-        return gulp.src('./src/js/modules/**/*.ts')
+        return gulp.src('./frontend/js/modules/**/*.ts')
             .pipe(typescript({
                 module: 'commonjs',
                 isolatedModules: true
@@ -41,7 +41,7 @@ gulp.task('js', function() {
     }
 
     function js() {
-        return gulp.src('./src/js/modules/**/*.js');
+        return gulp.src('./frontend/js/modules/**/*.js');
     }
 
     return es.merge(ts(), js())
@@ -60,9 +60,9 @@ gulp.task('dev', ['stylus', 'js'], function() {
        proxy: "localhost:8080"
     });
 
-    gulp.watch('./src/styl/*.styl', ['stylus']);
-    gulp.watch('./src/js/**/*.js', ['js']).on('change', reload);
-    gulp.watch('./src/js/**/*.ts', ['js']).on('change', reload);
+    gulp.watch('./frontend/styl/*.styl', ['stylus']);
+    gulp.watch('./frontend/js/**/*.js', ['js']).on('change', reload);
+    gulp.watch('./frontend/js/**/*.ts', ['js']).on('change', reload);
 
     gulp.watch('./views/**/*.jade').on('change', reload);
 });
