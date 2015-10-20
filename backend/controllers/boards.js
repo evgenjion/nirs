@@ -1,3 +1,5 @@
+'use strict';
+
 var crypto = require('crypto');
 var jade = require('jade');
 
@@ -7,17 +9,19 @@ var jade = require('jade');
 module.exports = (app) => {
 
     app.get('/boards/paint/:id', (req, res) => {
-        //console.log(req.params.id);
+        let boardID = req.params.id;
 
-        var session = req.session;
+        let UsersModel = require('../models/users');
+        let userBoards = new UsersModel().getUserBoards(req.sessionID);
 
-        if (session.viewTimes === undefined)
-            session.viewTimes = 0;
-        else
-            session.viewTimes++;
+        let isOwner = false;
 
-        var params = {
-            viewInfo: session.viewTimes || 'Страница не была посещена раннее'
+        if(userBoards.find(i => i === boardID)) {
+            isOwner = true;
+        }
+
+        let params = {
+            isOwner
         };
 
         res.send(jade.renderFile('./backend/views/draw.jade', params));

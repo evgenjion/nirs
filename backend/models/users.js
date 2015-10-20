@@ -25,8 +25,8 @@ class Users {
         return this._DAO.getAllByHash(hash);
     }
 
-    getUserHist(hash) {
-        return this._DAO.getBoards(hash);
+    getUserBoards(hash) {
+        return this._DAO.getUserBoards(hash);
     }
 
     /**

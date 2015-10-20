@@ -20,7 +20,7 @@ block content
             canvas#canvas(width="600", height="400") Обновите свой браузер для поддержки canvas
         .side-menu_right
 
-    .meta= viewInfo
+    .meta= isOwner ? 'Master' : 'Slave'
 
 block should-scripts
     script(src="/public/js/lodash.min.js")

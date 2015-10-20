@@ -41,11 +41,10 @@ class UsersDAO {
      *
      * @returns {String[]} Массив ID досок
      */
-    getBoards(hash) {
-        return [
-            'sd2k3f23j',
-            'fdkj24q3o'
-        ];
+    getUserBoards(hash) {
+        return (_.find(this._DB, {
+            sessionID: hash
+        }) || {}).boards || [] ;
     }
 
     /**
