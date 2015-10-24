@@ -2,24 +2,7 @@
  * @file модуль, в котором будет содержаться логика принятия событий
  * и вызова методов из draw/core
  */
-declare var define:(moduleId: string, deps: string[], any) => any;
-declare var fabric;
-
-type EventHandler = (event: string, handler: any) => any
-
-interface Observer {
-    on: EventHandler
-    trigger: EventHandler
-    off: EventHandler
-    un: EventHandler
-}
-
-// координаты действия мыши
-interface Coords {
-    left: number
-    top: number
-}
-
+/// <reference path="../globals.d.ts"/>
 
 class DrawController {
     private DEFAULT_DRAW_TYPE: string = 'Rect';
