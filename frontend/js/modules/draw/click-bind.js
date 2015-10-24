@@ -1,4 +1,4 @@
-define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Controller) {
+define('draw/click-bind', ['core/core', 'draw/controller', 'core/ws'], function(NIRS, Controller, WS) {
     $(function() {
         var tools__item = $('.tools__item'),
             canvas = Controller.getCanvas();
@@ -14,7 +14,7 @@ define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Contr
 
         bindDraw(canvas);
 
-        // precent objects selection
+        // prevent objects selection
         canvas.selection = false;
 
         // TODO: поставить нормальный таймер
@@ -36,29 +36,28 @@ define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Contr
         var canvasOffset = $(canvas.upperCanvasEl).offset(),
             startCoord = {};
 
-        // FIXME: Поправить урл
-        var socket = new WebSocket("ws://localhost:8081/draw");
-
-        socket.onopen = function() {
-            console.log('ws: соединение установлено');
-        };
-
-
         canvas.on('mouse:down', function(options) {
             startCoord = {
                 left: options.e.clientX - canvasOffset.left,
                 top: options.e.clientY - canvasOffset.top
             };
 
+            WS.drawStart(Controller.getDrawType(), startCoord);
             Controller.drawingStart(startCoord);
         });
 
         // TODO: _.throttle
         canvas.on('mouse:move', function(options) {
-            Controller.drawingUpdate({
+            var params = {
                 left: options.e.clientX - canvasOffset.left - startCoord.left,
                 top: options.e.clientY - canvasOffset.top - startCoord.top
-            });
+            };
+
+            // Не слать лишнее
+            if(!isNaN(params.left) && !isNaN(params.top) && Controller.needDrawing()) {
+                WS.drawProgress(Controller.getDrawType(), params);
+                Controller.drawingUpdate(params);
+            }
         });
 
         /**
@@ -67,6 +66,7 @@ define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Contr
          *
          */
         $(document).on({
+            // TODO: WS
             keypress: function (e) {
                 Controller.drawingUpdate({
                     text: String.fromCharCode(e.which)
@@ -82,6 +82,7 @@ define('draw/click-bind', ['core/core', 'draw/controller'], function(NIRS, Contr
 
         canvas.on('mouse:up', function() {
             Controller.drawingEnd();
+            WS.endProgress();
         });
     }
 });
