@@ -5,7 +5,7 @@
 /// <reference path="../globals.d.ts"/>
 
 class DrawController {
-    private DEFAULT_DRAW_TYPE: string = 'Rect';
+    private DEFAULT_DRAW_TYPE: string = 'Cursor';
     private currentDrawType: string = this.DEFAULT_DRAW_TYPE;
     private canvas = new fabric.Canvas('canvas');
 
@@ -91,8 +91,12 @@ class DrawController {
      *
      * @returns {number}
      */
-    private notNeedDrawing() {
+    public notNeedDrawing() {
         return ~['Move', 'Cursor'].indexOf(this.currentDrawType);
+    }
+
+    public needDrawing(): boolean {
+        return !this.notNeedDrawing();
     }
 }
 
