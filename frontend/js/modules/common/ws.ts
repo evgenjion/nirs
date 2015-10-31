@@ -13,6 +13,3 @@ export class WebsocketTransport {
 
     protected socket = new WebSocket("ws://localhost:8081/draw");
 }
-
-// TODO: проверить, нужна ли эта строчка
-// define('common/ws', [], () => { return WebsocketTransport; });
