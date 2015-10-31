@@ -3,3 +3,6 @@ public/css
 public/js/draw/
 public/js/core/
 public/js/main.js
+public/js/common/
+public/js/customer/
+public/js/owner/

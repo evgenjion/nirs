@@ -1,9 +1,16 @@
 define('core/utils', [], function() {
 
     return {
+        getCurrentBoardId: getCurrentBoardId,
         // Observer pattern
         EventSupport: EventSupport
     };
+
+    function getCurrentBoardId() {
+        let location = window.location.href.toString();
+
+        return location.slice(location.lastIndexOf('/') + 1);
+    }
 
     /**
      * @constructor
@@ -25,7 +32,7 @@ define('core/utils', [], function() {
             if(!_.contains(_events[e], h)) _events[e].push(h);
 
             return h;
-        }
+        };
 
         /**
          *
@@ -42,7 +49,7 @@ define('core/utils', [], function() {
                 return true;
             }
             return false;
-        }
+        };
 
         /**
          *
@@ -56,7 +63,7 @@ define('core/utils', [], function() {
                 return true;
             }
             return false;
-        }
+        };
         /**
          *
          * @param e {string} event name
@@ -72,7 +79,7 @@ define('core/utils', [], function() {
                 return true;
             }
             return false;
-        }
+        };
     }
 });
 
