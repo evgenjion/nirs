@@ -7,7 +7,7 @@ define('core/utils', [], function() {
     };
 
     function getCurrentBoardId() {
-        let location = window.location.href.toString();
+        var location = window.location.href.toString();
 
         return location.slice(location.lastIndexOf('/') + 1);
     }
