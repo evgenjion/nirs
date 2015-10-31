@@ -30,4 +30,6 @@ block should-scripts
     script(src="/public/js/fabric.js")
     //- zepto custom build(modules: "zepto event ajax data fx fx_methods callbacks deferred")
     script(src="/public/js/zepto.min.js")
-    script(data-main="/public/js/main", src="/public/js/require.js")
+
+    -var mainScript = isOwner ? "/public/js/main" : "/public/js/customer/main";
+    script(data-main=mainScript, src="/public/js/require.js")
