@@ -34,8 +34,7 @@ gulp.task('js', function() {
     function ts() {
         return gulp.src('./frontend/js/modules/**/*.ts')
             .pipe(typescript({
-                module: 'commonjs',
-                isolatedModules: true
+                module: 'amd'
             }))
             .on('error', function(e) { console.error(e.message); });
     }
