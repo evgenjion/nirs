@@ -1,4 +1,4 @@
-define('draw/click-bind', ['core/core', 'draw/controller', 'core/ws'], function(NIRS, Controller, WS) {
+define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function(NIRS, Controller, WS) {
     $(function() {
         var tools__item = $('.tools__item'),
             canvas = Controller.getCanvas();
