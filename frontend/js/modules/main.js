@@ -1,1 +1,1 @@
-require(['core/core', 'draw/click-bind'], function(core) {});
+require(['draw/click-bind'], function(core) {});
