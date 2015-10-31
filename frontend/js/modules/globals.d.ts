@@ -12,7 +12,7 @@ interface Coords {
     top: number
 }
 
-enum Shapes {
+declare enum Shapes {
     Rect,
     Ellipse,
     Line,
@@ -23,7 +23,7 @@ enum Shapes {
     Move
 }
 
-type EventHandler = (event: string, handler: any) => any
+declare type EventHandler = (event: string, handler: any) => any
 
 interface Observer {
     on: EventHandler
@@ -32,3 +32,4 @@ interface Observer {
     un: EventHandler
 }
 
+declare class WebsocketTransport {}
