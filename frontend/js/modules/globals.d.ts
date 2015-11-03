@@ -1,7 +1,8 @@
 ///////////
 // Globals:
 ///////////
-declare var define:(moduleId: string, deps: string[], any) => any;
+declare var define: (moduleId: string, deps: string[], any:Function) => any;
+declare var require: (deps: Array<string>, callback: Function) => any;
 declare var fabric;
 
 ////////////////
@@ -12,7 +13,7 @@ interface Coords {
     top: number
 }
 
-declare enum Shapes {
+declare enum FabricShapes {
     Rect,
     Ellipse,
     Line,
