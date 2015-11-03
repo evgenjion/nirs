@@ -11,5 +11,6 @@ export class WebsocketTransport {
         DRAW_END: 'DRAW_END'
     };
 
+    // FIXME: нормальный адрес
     protected socket = new WebSocket("ws://localhost:8081/draw");
 }
