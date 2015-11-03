@@ -4,6 +4,18 @@
  */
 /// <reference path="../globals.d.ts"/>
 
+enum FabricShapes {
+    Rect,
+    Ellipse,
+    Line,
+    Triangle,
+    Cursor,
+    Text,
+    Arrow,
+    Move
+}
+
+// TODO: export
 class DrawController {
     private DEFAULT_DRAW_TYPE: string = 'Cursor';
     private currentDrawType: string = this.DEFAULT_DRAW_TYPE;
@@ -44,10 +56,15 @@ class DrawController {
     /**
      * Назначает новый тип объекта для отрисовки
      *
-     * @param {string} shapeType – модификатор класса из html
+     * @param {string} shapeType – модификатор класса из html, либо какой-то элемент из FabricShapes(enum)
      */
     public setDrawType(shapeType: string) {
-        this.currentDrawType = this.fabricTypes[shapeType] || this.DEFAULT_DRAW_TYPE;
+
+        if (shapeType in FabricShapes) {
+            this.currentDrawType = shapeType;
+        } else {
+            this.currentDrawType = this.fabricTypes[shapeType] || this.DEFAULT_DRAW_TYPE;
+        }
 
         if (this.currentDrawType === 'Move')
             this.canvas.selection = true;
