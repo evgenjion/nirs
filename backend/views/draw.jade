@@ -22,6 +22,8 @@ block content
         .side-menu_right
 
     .meta= isOwner ? 'Master' : 'Slave'
+    .meta
+        a.link(href="/") <- Home
 
 block should-scripts
     script(src="/public/js/lodash.min.js")
@@ -31,5 +33,5 @@ block should-scripts
     //- zepto custom build(modules: "zepto event ajax data fx fx_methods callbacks deferred")
     script(src="/public/js/zepto.min.js")
 
-    -var mainScript = isOwner ? "/public/js/main" : "/public/js/customer/main";
+    -var mainScript = isOwner ? "/public/js/main" : "/public/js/customer-main";
     script(data-main=mainScript, src="/public/js/require.js")
