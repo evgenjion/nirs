@@ -39,7 +39,14 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
                 top: options.e.clientY - canvasOffset.top
             };
 
-            WS.drawStart(Controller.getDrawType(), startCoord);
+            WS.send({
+                type: 'DRAW_START',
+                data: {
+                    shape: Controller.getDrawType(),
+                    coords: startCoord
+                }
+            });
+
             Controller.drawingStart(startCoord);
         });
 
@@ -52,7 +59,14 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
 
             // Не слать лишнее
             if(!isNaN(params.left) && !isNaN(params.top) && Controller.needDrawing()) {
-                WS.drawProgress(Controller.getDrawType(), params);
+                WS.send({
+                    type: 'DRAW_PROGRESS',
+                    data: {
+                        shape: Controller.getDrawType(),
+                        coords: params
+                    }
+                });
+
                 Controller.drawingUpdate(params);
             }
         });
@@ -65,21 +79,43 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
         $(document).on({
             // TODO: WS
             keypress: function (e) {
+                var text = String.fromCharCode(e.which);
+
                 Controller.drawingUpdate({
-                    text: String.fromCharCode(e.which)
+                    text: text
+                });
+
+                WS.send({
+                    action: 'keypress',
+                    data: {
+                        text: text
+                    }
                 });
             },
             keydown: function (e) {
                 // Backspace
-                if (e.which === 8) Controller.drawingUpdate({
-                    backspace: true
-                });
+                if (e.which === 8) {
+                    Controller.drawingUpdate({
+                        backspace: true
+                    });
+
+                    WS.send({
+                        action: 'keypress',
+                        data: {
+                            backspace: true
+                        }
+                    });
+                }
+
+                e.preventDefault();
             }
         });
 
         canvas.on('mouse:up', function() {
             Controller.drawingEnd();
-            WS.endProgress();
+            WS.send({
+                type: 'DRAW_END'
+            });
         });
     }
 });

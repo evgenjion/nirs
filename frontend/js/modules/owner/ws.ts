@@ -5,6 +5,22 @@ import Utils = require('core/utils');
 
 declare var Utils:any;
 
+interface drawData {
+    shape: string // shape – элемент множества {Shapes}
+    coords: Coords
+}
+
+interface keyboardData {
+    // может быть либо backspace: true, либо text
+    backspace?: boolean
+    text?: string
+}
+
+interface ActionInterface {
+    type: string
+    data: drawData|keyboardData|any // "any" only for ide
+}
+
 class WebsocketTransportOwner extends Base.WebsocketTransport {
     private SOCKET_INITED: boolean = false;
 
@@ -69,26 +85,22 @@ class WebsocketTransportOwner extends Base.WebsocketTransport {
     // Чтобы не отправлять лишние запросы на сервер
     private drawingInProgress:boolean = false;
 
-    /**
-     *
-     * @param {String} shape – элемент множества {Shapes}
-     * @param {Coords} coords - координаты мыши
-     */
-    public drawStart(shape: string, coords: Coords) {
-        this.drawingInProgress = true;
+    public send(params:ActionInterface) {
+        params.data || (params.data = {});
 
-        this.socketSend(this.types.DRAW_START, shape, coords);
-    }
+        switch (params.type) {
+            case this.types.DRAW_START:
+                this.drawingInProgress = true;
+                break;
+            case this.types.DRAW_PROGRESS:
+                if (!this.drawingInProgress) return;
+                break;
+            case this.types.DRAW_END:
+                this.drawingInProgress = false;
+                break;
+        }
 
-    public drawProgress(shape: string, coords: Coords) {
-        if (!this.drawingInProgress) return;
-
-        this.socketSend(this.types.DRAW_PROGRESS, shape, coords);
-    }
-
-    public endProgress() {
-        this.drawingInProgress = false;
-        this.socketSend(this.types.DRAW_END);
+        this.socketSend(params.type, params.data.shape, params.data.coords);
     }
 }
 
