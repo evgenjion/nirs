@@ -93,4 +93,3 @@ class WebsocketTransportOwner extends Base.WebsocketTransport {
 }
 
 export = new WebsocketTransportOwner();
-

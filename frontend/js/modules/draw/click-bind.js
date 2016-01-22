@@ -26,9 +26,6 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
     /**
      * Bind handlers to canvas events
      *
-     *
-     * TODO: прикрутить сокеты https://learn.javascript.ru/websockets
-     *
      * @param {fabric.Canvas} canvas
      */
     function bindDraw(canvas) {

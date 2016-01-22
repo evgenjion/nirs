@@ -24,8 +24,8 @@ module.exports = (sessionHandler) => {
 
                 let info = JSON.parse(message);
 
+                // one from SocketAction
                 switch (info.type) {
-                    // TODO: typedef хотябы
                     case 'CONNECT':
                         let boardID = info.data
                         req.session.currentBoard = boardID;
@@ -48,3 +48,7 @@ module.exports = (sessionHandler) => {
         });
     });
 };
+
+/**
+ * @type {('CONNECT_DRAW'|'CONNECT_WATCH'|'CONNECT'|'DRAW_START'|'DRAW_PROGRESS'|'DRAW_END')} SocketAction - one from list of available socket actions
+ */
