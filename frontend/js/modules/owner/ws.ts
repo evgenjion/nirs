@@ -3,6 +3,8 @@
 import Base = require('common/ws');
 import Utils = require('core/utils');
 
+let WS = Base.WebsocketTransport;
+
 declare var Utils:any;
 
 interface drawData {
@@ -21,7 +23,7 @@ interface ActionInterface {
     data: drawData|keyboardData|any // "any" only for ide
 }
 
-class WebsocketTransportOwner extends Base.WebsocketTransport {
+class WebsocketTransportOwner extends WS {
     private SOCKET_INITED: boolean = false;
 
     private _onSocketOpenQueue: Array<Function> = [];
@@ -31,7 +33,7 @@ class WebsocketTransportOwner extends Base.WebsocketTransport {
 
         this.socket.onopen = () => {
             this.SOCKET_INITED = true;
-            this.socketSend(this.types.CONNECT);
+            this.socketSend(WS.types.CONNECT);
 
             while(this._onSocketOpenQueue.length)
                 // TODO: Проверить!
@@ -51,19 +53,19 @@ class WebsocketTransportOwner extends Base.WebsocketTransport {
 
         let send = () => {
             switch (typeID) {
-                case this.types.DRAW_START:
+                case WS.types.DRAW_START:
                     data = { shape };
-                case this.types.DRAW_PROGRESS:
+                case WS.types.DRAW_PROGRESS:
                     data || (data = {});
                     data.coords = [coords.left, coords.top];
                     break;
 
-                case this.types.DRAW_END:
+                case WS.types.DRAW_END:
                     break;
 
-                case this.types.CONNECT:
-                case this.types.CONNECT_WATCH:
-                case this.types.CONNECT_DRAW:
+                case WS.types.CONNECT:
+                case WS.types.CONNECT_WATCH:
+                case WS.types.CONNECT_DRAW:
 
                     data = Utils.getCurrentBoardId();
                     break;
@@ -89,13 +91,13 @@ class WebsocketTransportOwner extends Base.WebsocketTransport {
         params.data || (params.data = {});
 
         switch (params.type) {
-            case this.types.DRAW_START:
+            case WS.types.DRAW_START:
                 this.drawingInProgress = true;
                 break;
-            case this.types.DRAW_PROGRESS:
+            case WS.types.DRAW_PROGRESS:
                 if (!this.drawingInProgress) return;
                 break;
-            case this.types.DRAW_END:
+            case WS.types.DRAW_END:
                 this.drawingInProgress = false;
                 break;
         }

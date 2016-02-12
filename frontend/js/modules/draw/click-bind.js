@@ -31,6 +31,7 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
                 top: options.e.clientY - canvasOffset.top
             };
 
+            // TODO: 1 function call
             WS.send({
                 type: 'DRAW_START',
                 data: {
@@ -69,7 +70,6 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
          *
          */
         $(document).on({
-            // TODO: WS
             keypress: function (e) {
                 var text = String.fromCharCode(e.which);
 

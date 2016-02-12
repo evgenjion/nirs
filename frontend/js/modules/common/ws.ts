@@ -1,7 +1,7 @@
 /// <reference path="../globals.d.ts"/>
 
 export class WebsocketTransport {
-    protected types = {
+    public static types = {
         CONNECT_DRAW: 'CONNECT_DRAW',
         CONNECT_WATCH: 'CONNECT_WATCH',
         CONNECT: 'CONNECT', // Простое соединение к доске, правами можно порулить на сервере

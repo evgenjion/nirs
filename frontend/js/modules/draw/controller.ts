@@ -15,6 +15,13 @@ enum FabricShapes {
     Move
 }
 
+import { WebsocketTransport } from 'common/ws';
+import NIRS = require('core/core');
+import drawCore = require('draw/core');
+
+
+let  WS = WebsocketTransport;
+
 // TODO: export
 class DrawController {
     private DEFAULT_DRAW_TYPE: string = 'Cursor';
@@ -59,11 +66,50 @@ class DrawController {
     }
 
     /**
-     * TODO: принимать сообщение вида WebsocketTransport.types
-     *  и data(из сервера), и уметь это все отрисовывать.
+     * @typedef {Object} DrawStartData
+     *
+     * @property {String} shape – фигура из множества {Shapes}
      */
-    public trigger(e:string, data: any) {
 
+    /**
+     * @typedef {Array<Number>} DrawProgressData
+     *
+     * @property 0 – left coord
+     * @property 1 – top coord
+     */
+
+    /**
+     * @typedef {Object} DrawMessage
+     *
+     * @property {string} type – one from common/ws types
+     * @property {DrawStartData|DrawProgressData|string} data
+     */
+
+    /**
+     *  @param {DrawMessage} e
+     */
+    public trigger(e:any) {
+        let { type, data } = e;
+
+        switch (type) {
+            case WS.types.DRAW_START:
+                this.setDrawType(data.shape);
+                this.drawingStart(formatCoords(data.coords));
+                break;
+            case WS.types.DRAW_PROGRESS:
+                this.drawingUpdate(formatCoords(data.coords));
+                break;
+            case WS.types.DRAW_END:
+                this.drawingEnd();
+                break;
+            default:
+                throw new Error('unsupported data: ' + JSON.stringify(data));
+        }
+
+        function formatCoords(coords: Array<number>) {
+            let [left, top] = coords;
+            return { left, top };
+        }
     }
 
     /**
@@ -150,8 +196,4 @@ class DrawController {
     }
 }
 
-define('draw/controller', ['core/core', 'draw/core'], (NIRS, core)=> {
-    var controller = new DrawController(NIRS, core);
-
-    return controller;
-});
+export = new DrawController(NIRS, drawCore);

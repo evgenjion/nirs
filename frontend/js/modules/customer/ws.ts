@@ -3,13 +3,21 @@
  */
 /// <reference path="../globals.d.ts"/>
 
+// import * as mod1 from "mod1";
+// import mod2 = require("mod2");
+// import {z} from "mod3";
+
 import Base = require('common/ws');
 import Utils = require('core/utils');
 import DrawController = require('draw/controller');
 
+// Temp:( for IDE
 declare var Utils:any;
+declare var DrawController:any;
 
-class WebSocketClient extends Base.WebsocketTransport {
+let WS = Base.WebsocketTransport;
+
+class WebSocketClient extends WS {
     private observer:Observer;
 
     constructor() {
@@ -21,41 +29,15 @@ class WebSocketClient extends Base.WebsocketTransport {
             console.log('socket init!');
 
             this.socket.send(JSON.stringify({
-                type: this.types.CONNECT,
+                type: WS.types.CONNECT,
                 data: boardId
             }));
         };
 
         this.socket.onmessage = (e) => {
             let msg = JSON.parse(e.data);
-            let data = msg.data;
 
-            console.log(data);
-
-            //TODO: выпилить отсюда эту логику, оставить только транспортную
-            switch (msg.type) {
-                case this.types.DRAW_START:
-                    DrawController.setDrawType(data.shape);
-                    DrawController.drawingStart(formatCoords(data.coords));
-                    break;
-                case this.types.DRAW_PROGRESS:
-                    console.log(formatCoords(data.coords));
-                    DrawController.drawingUpdate(formatCoords(data.coords));
-                    break;
-                case this.types.DRAW_END:
-                    DrawController.drawingEnd();
-                    break;
-                default:
-                    console.error('unsupported data: ', data);
-
-            }
-
-            // DrawController.trigger(msg.type, data);
-
-            function formatCoords(coords: Array<number>) {
-                let [left, top] = coords;
-                return { left, top };
-            }
+            DrawController.trigger(msg);
         };
 
         this.observer = new Utils.EventSupport();
