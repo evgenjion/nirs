@@ -13,14 +13,6 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
         });
 
         bindDraw(canvas);
-
-        // prevent objects selection
-        canvas.selection = false;
-
-        // TODO: поставить нормальный таймер
-        setInterval(function() {
-            canvas.renderAll();
-        }, 15);
     });
 
     /**

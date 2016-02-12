@@ -35,6 +35,10 @@ class DrawController {
     private NIRS: Observer;
     private drawCore;
 
+    static __instance:DrawController;
+
+    private RENDER_DELAY:number = 15;
+
     /**
      * @param NIRS - global namespace
      * @param core - модуль draw/core
@@ -42,12 +46,41 @@ class DrawController {
      * TODO: отрефакторить
      */
     constructor(NIRS: Observer, core: any) { // TODO: поправить тип any
+        if (DrawController.__instance) {
+            return DrawController.__instance;
+        }
+
         this.NIRS = NIRS;
         this.drawCore = core;
+
+        this._initCanvas();
+
+        DrawController.__instance = this;
     }
 
     /**
-     * возвращает инстанс fabric.Canvas, должен быть синглтон
+     * TODO: принимать сообщение вида WebsocketTransport.types
+     *  и data(из сервера), и уметь это все отрисовывать.
+     */
+    public trigger(e:string, data: any) {
+
+    }
+
+    /**
+     *
+     * @private Проинициализировать canvas, и его отрисовку
+     */
+    private _initCanvas() {
+        // Изначально запрещаем выделять элементы на канвасе
+        this.canvas.selection = false;
+
+        setInterval(() => {
+            this.canvas.renderAll();
+        }, 15);
+    }
+
+    /**
+     * возвращает инстанс fabric.Canvas, должен быть один инстанс для всего приложения
      */
     public getCanvas() {
         return this.canvas;

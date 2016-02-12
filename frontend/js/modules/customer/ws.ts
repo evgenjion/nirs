@@ -15,30 +15,14 @@ class WebSocketClient extends Base.WebsocketTransport {
     constructor() {
         super();
 
-
-        // TODO: порефакторить
-        let canvas = DrawController.getCanvas();
-
-        canvas.selection = false;
-
-        setInterval(function() {
-            canvas.renderAll();
-        }, 15);
-
-
-
-
         this.socket.onopen = () => {
-            // TODO: WebsocketTransport реюзать код (Лучше вообще сунуть это  utils)
-            let location = window.location.href.toString();
-            let data = location.slice(location.lastIndexOf('/') + 1);
-
+            let boardId = Utils.getCurrentBoardId();
 
             console.log('socket init!');
 
             this.socket.send(JSON.stringify({
                 type: this.types.CONNECT,
-                data
+                data: boardId
             }));
         };
 
@@ -65,6 +49,8 @@ class WebSocketClient extends Base.WebsocketTransport {
                     console.error('unsupported data: ', data);
 
             }
+
+            // DrawController.trigger(msg.type, data);
 
             function formatCoords(coords: Array<number>) {
                 let [left, top] = coords;
