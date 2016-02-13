@@ -102,6 +102,8 @@ class DrawController {
             case WS.types.DRAW_END:
                 this.drawingEnd();
                 break;
+            case WS.types.CONNECT:
+                break;
             default:
                 throw new Error('unsupported data: ' + JSON.stringify(data));
         }

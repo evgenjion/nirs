@@ -39,8 +39,6 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
                     coords: startCoord
                 }
             });
-
-            Controller.drawingStart(startCoord);
         });
 
         // TODO: _.throttle
@@ -59,8 +57,6 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
                         coords: params
                     }
                 });
-
-                Controller.drawingUpdate(params);
             }
         });
 
@@ -104,7 +100,6 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
         });
 
         canvas.on('mouse:up', function() {
-            Controller.drawingEnd();
             WS.send({
                 type: 'DRAW_END'
             });

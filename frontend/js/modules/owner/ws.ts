@@ -3,6 +3,8 @@
 import Base = require('common/ws');
 import Utils = require('core/utils');
 
+import * as DrawController from 'draw/controller';
+
 let WS = Base.WebsocketTransport;
 
 declare var Utils:any;
@@ -71,10 +73,16 @@ class WebsocketTransportOwner extends WS {
                     break;
             }
 
-            this.socket.send(JSON.stringify({
+            // message for sockets and draw controller;
+            let msg = {
                 type: typeID,
                 data
-            }));
+            };
+
+            this.socket.send(JSON.stringify(msg));
+
+            // Обновляем состояние на canvas
+            DrawController.trigger(msg);
         };
 
         // TODO: ПРОВЕРИТЬ!
