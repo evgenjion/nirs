@@ -1,9 +1,9 @@
 /// <reference path="../globals.d.ts"/>
 
-import Base = require('common/ws');
-import Utils = require('core/utils');
-
+import * as Base from 'common/ws';
 import * as DrawController from 'draw/controller';
+
+import Utils = require('core/utils');
 
 let WS = Base.WebsocketTransport;
 

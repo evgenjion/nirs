@@ -7,9 +7,10 @@
 // import mod2 = require("mod2");
 // import {z} from "mod3";
 
-import Base = require('common/ws');
+import * as Base from 'common/ws'
+import * as DrawController from 'draw/controller'
+
 import Utils = require('core/utils');
-import DrawController = require('draw/controller');
 
 // Temp:( for IDE
 declare var Utils:any;

@@ -16,6 +16,8 @@ enum FabricShapes {
 }
 
 import { WebsocketTransport } from 'common/ws';
+
+// js modules import
 import NIRS = require('core/core');
 import drawCore = require('draw/core');
 
