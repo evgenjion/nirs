@@ -1,4 +1,4 @@
-define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function(NIRS, Controller, WS) {
+define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/js/libs/jscolor.min.js'], function(NIRS, Controller, WS, colorPicker) {
     $(function() {
         var tools__item = $('.tools__item'),
             canvas = Controller.getCanvas();
@@ -11,6 +11,18 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
 
             Controller.setDrawType(type);
         });
+
+        $('.jscolor')[0].onchange = function() {
+            var color = '#' + this.jscolor; // jscolor.toString() is necessary
+
+            WS.send({
+                type: 'EVENT',
+                data: {
+                    action: 'color-change',
+                    color: color
+                }
+            });
+        };
 
         bindDraw(canvas);
     });

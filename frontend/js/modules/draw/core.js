@@ -1,4 +1,6 @@
 define('draw/core', [], function() {
+    var CURRENT_COLOR = '#000000';
+
     /**
      * @typedef {Constructor} Shape
      *
@@ -38,6 +40,7 @@ define('draw/core', [], function() {
                 width: width,
                 height: height,
                 left: left,
+                fill: CURRENT_COLOR,
                 top: top
             };
         };
@@ -63,6 +66,7 @@ define('draw/core', [], function() {
                 rx: rx,
                 ry: ry,
                 left: left - (isInversed ? rx*2 : 0),
+                fill: CURRENT_COLOR,
                 top: top
             };
         };
@@ -98,12 +102,12 @@ define('draw/core', [], function() {
             return {
                 left: x1,
                 top: y1,
-                fill: 'black',
-                stroke: 'black',
+                fill: CURRENT_COLOR,
+                stroke: CURRENT_COLOR,
                 strokeWidth: 3,
                 selectable: false
             };
-        }
+        };
     };
     extend(Line, Shape);
 
@@ -178,7 +182,7 @@ define('draw/core', [], function() {
                 left: initialLeft,
                 top: initialTop,
                 points: startParams,
-                stroke: 'black'
+                stroke: CURRENT_COLOR
             };
         };
 
@@ -283,6 +287,15 @@ define('draw/core', [], function() {
          */
         end: function () {
             this.drawingObj = undefined;
+        },
+
+        /**
+         * @param {String} color цвет
+         *
+         * @example #ff00ee
+         */
+        setColor: function(color) {
+            CURRENT_COLOR = color;
         }
     };
 

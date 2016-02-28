@@ -4,6 +4,7 @@
  */
 /// <reference path="../globals.d.ts"/>
 
+
 enum FabricShapes {
     Rect,
     Ellipse,
@@ -20,7 +21,6 @@ import { WebsocketTransport } from 'common/ws';
 // js modules import
 import NIRS = require('core/core');
 import drawCore = require('draw/core');
-
 
 let  WS = WebsocketTransport;
 
@@ -121,7 +121,12 @@ class DrawController {
     }
 
     private defaultEventHandler(data:any = {}) {
-        if (data.action === 'keypress') this.keypressHandler(data);
+        if (data.action === 'keypress') return this.keypressHandler(data);
+        if (data.action === 'color-change') return this.colorChange(data);
+    }
+
+    private colorChange(data: any) {
+        this.drawCore.setColor(data.color);
     }
 
     private keypressHandler(data: any){
