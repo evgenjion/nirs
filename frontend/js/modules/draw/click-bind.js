@@ -49,7 +49,11 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
             };
 
             // Не слать лишнее
-            if(!isNaN(params.left) && !isNaN(params.top) && Controller.needDrawing()) {
+            if(
+                !isNaN(params.left) &&
+                !isNaN(params.top) &&
+                Controller.needDrawing()
+            ) {
                 WS.send({
                     type: 'DRAW_PROGRESS',
                     data: {
@@ -69,33 +73,26 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws'], function
             keypress: function (e) {
                 var text = String.fromCharCode(e.which);
 
-                Controller.drawingUpdate({
-                    text: text
-                });
-
                 WS.send({
-                    action: 'keypress',
+                    type: 'EVENT',
                     data: {
+                        action: 'keypress',
                         text: text
                     }
                 });
             },
             keydown: function (e) {
-                // Backspace
-                if (e.which === 8) {
-                    Controller.drawingUpdate({
-                        backspace: true
-                    });
-
+                if (e.which === 8) { // Backspace
                     WS.send({
-                        action: 'keypress',
+                        type: 'EVENT',
                         data: {
+                            action: 'keypress',
                             backspace: true
                         }
                     });
-                }
 
-                e.preventDefault();
+                    e.preventDefault();
+                }
             }
         });
 

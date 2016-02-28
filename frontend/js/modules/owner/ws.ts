@@ -50,7 +50,7 @@ class WebsocketTransportOwner extends WS {
      * @param {Coords|String} coords – координаты, если рисуем, id доски, если подключились,
      *                                 any добавлено для транслятора
      */
-    private socketSend(typeID: string, shape?: string, coords?: Coords|string|any) {
+    private socketSend(typeID: string, shape?: string|any, coords?: Coords|string|any) {
         let data;
 
         let send = () => {
@@ -66,10 +66,12 @@ class WebsocketTransportOwner extends WS {
                     break;
 
                 case WS.types.CONNECT:
-                case WS.types.CONNECT_WATCH:
-                case WS.types.CONNECT_DRAW:
-
                     data = Utils.getCurrentBoardId();
+                    break;
+
+                // Проксируем данные as is
+                case WS.types.EVENT:
+                    data = shape;
                     break;
             }
 
@@ -98,19 +100,27 @@ class WebsocketTransportOwner extends WS {
     public send(params:ActionInterface) {
         params.data || (params.data = {});
 
+        // Флаг о том, что сообщение нужно просто спроксировать
+        // TODO: Придумать что-то получше
+        let proxyEventAsIs;
+
         switch (params.type) {
             case WS.types.DRAW_START:
-                this.drawingInProgress = true;
-                break;
+                this.drawingInProgress = true; break;
             case WS.types.DRAW_PROGRESS:
-                if (!this.drawingInProgress) return;
-                break;
+                if (!this.drawingInProgress) return; break;
             case WS.types.DRAW_END:
-                this.drawingInProgress = false;
-                break;
+                this.drawingInProgress = false; break;
+
+            case WS.types.EVENT:
+                proxyEventAsIs = true; break;
         }
 
-        this.socketSend(params.type, params.data.shape, params.data.coords);
+        if (proxyEventAsIs) {
+            this.socketSend(params.type, params.data);
+        } else {
+            this.socketSend(params.type, params.data.shape, params.data.coords);
+        }
     }
 }
 

@@ -106,6 +106,10 @@ class DrawController {
                 break;
             case WS.types.CONNECT:
                 break;
+
+            case WS.types.EVENT:
+                this.defaultEventHandler(data);
+                break;
             default:
                 throw new Error('unsupported data: ' + JSON.stringify(data));
         }
@@ -114,6 +118,14 @@ class DrawController {
             let [left, top] = coords;
             return { left, top };
         }
+    }
+
+    private defaultEventHandler(data:any = {}) {
+        if (data.action === 'keypress') this.keypressHandler(data);
+    }
+
+    private keypressHandler(data: any){
+        this.drawingUpdate(data);
     }
 
     /**
@@ -172,7 +184,7 @@ class DrawController {
         });
     }
 
-    public drawingUpdate(coords: Coords) {
+    public drawingUpdate(coords: Coords|any) { //Либо координаты, либо текст
         if (this.notNeedDrawing()) return;
 
         this.drawCore.update(coords);
@@ -189,10 +201,10 @@ class DrawController {
     /**
      * Для определенных типов рисовать не нужно
      *
-     * @returns {number}
+     * @returns {boolean}
      */
-    public notNeedDrawing() {
-        return ~['Move', 'Cursor'].indexOf(this.currentDrawType);
+    public notNeedDrawing(): boolean {
+        return !!~['Move', 'Cursor'].indexOf(this.currentDrawType);
     }
 
     public needDrawing(): boolean {
