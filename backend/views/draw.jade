@@ -26,12 +26,12 @@ block content
         a.link(href="/") <- Home
 
 block should-scripts
-    script(src="/public/js/lodash.min.js")
     //- TODO: prodution + cdn
+    script(src="/public/js/libs/lodash/dist/lodash.min.js")
     //- script(src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js")
-    script(src="/public/js/fabric.js")
+    script(src="/public/js/libs/fabric.js/dist/fabric.js")
     //- zepto custom build(modules: "zepto event ajax data fx fx_methods callbacks deferred")
-    script(src="/public/js/zepto.min.js")
+    script(src="/public/js/libs/zepto.min.js")
 
     -var mainScript = isOwner ? "/public/js/main" : "/public/js/customer-main";
-    script(data-main=mainScript, src="/public/js/require.js")
+    script(data-main=mainScript, src="/public/js/libs/requirejs/require.js")

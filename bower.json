@@ -1,0 +1,29 @@
+{
+  "name": "nirs",
+  "description": "Collaborate presentations edit",
+  "main": "app.js",
+  "authors": [
+    "evgenjion"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "nirs",
+    "evgenjion"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/js/libs/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash": "^4.5.1",
+    "fabric.js": "fabric#^1.5.0",
+    "requirejs": "^2.1.22"
+  }
+}

@@ -43,6 +43,7 @@
     "gulp-uglify": "^1.1.0"
   },
   "scripts": {
+    "preinstall": "bower install",
     "start": "node app.js"
   }
 }
