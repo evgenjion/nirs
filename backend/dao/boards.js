@@ -20,7 +20,7 @@ class BoardsDAO {
     /**
      * @FIXME real data
      *
-     * @returns {BoaуrdEntity}
+     * @returns {BoardEntity}
      */
     getByHash(hash) {
         return _.find(this._DB, { id: hash });
