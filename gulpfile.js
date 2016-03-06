@@ -12,6 +12,10 @@ var isProduction = process.argv.slice(-1)[0] === 'production',
     es          = require('event-stream'),
 
     typescript  = require('gulp-typescript'),
+    tsConfig    = typescript.createProject('tsconfig.json', {
+                      typescript: require('typescript')
+                  }),
+
     stylus      = require('gulp-stylus');
 
 
@@ -33,9 +37,7 @@ gulp.task('js', function() {
 
     function ts() {
         return gulp.src('./frontend/js/modules/**/*.ts')
-            .pipe(typescript({
-                module: 'amd'
-            }))
+            .pipe(typescript(tsConfig))
             .on('error', function(e) { console.error(e.message); });
     }
 
