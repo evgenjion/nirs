@@ -1,4 +1,4 @@
-define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/js/libs/jscolor.min.js'], function(NIRS, Controller, WS, colorPicker) {
+define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/js/libs/jscolor.js'], function(NIRS, Controller, WS, colorPicker) {
     $(function() {
         var tools__item = $('.tools__item'),
             canvas = Controller.getCanvas();
