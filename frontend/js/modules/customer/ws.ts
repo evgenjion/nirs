@@ -44,7 +44,7 @@ class WebSocketClient extends WS {
         this.observer = new Utils.EventSupport();
     }
 
-    public onDrawUpdate(callb:Function):void {
+    public onDrawUpdate(callb:Coords):void {
         this.observer.on('draw-update', callb);
     }
 }
