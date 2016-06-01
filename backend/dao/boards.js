@@ -8,11 +8,18 @@
 
 let _ = require('lodash');
 
+let MongoClient = require('mongodb').MongoClient;
+let assert = require('assert');
+
+let url = 'mongodb://localhost:27017/nirs';
+
+
+
+
 class BoardsDAO {
 
     constructor() {
         if (BoardsDAO.__instance) return BoardsDAO.__instance;
-        this._DB = [];
 
         BoardsDAO.__instance = this;
     }
@@ -20,18 +27,64 @@ class BoardsDAO {
     /**
      * @FIXME real data
      *
-     * @returns {BoardEntity}
+     * @returns {Promise}
      */
     getByHash(hash) {
-        return _.find(this._DB, { id: hash });
+        return new Promise(function(resolve, reject) {
+            MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                console.log("Connected correctly to server.");
+
+
+                resolve(db.collection('boards')
+                    .find({ id: hash }))
+                    .toArray(function(arr, db) {
+                        assert.equal(err, null, 'Error request from db');
+
+                        resolve(docs);
+
+                        db.close();
+                    });
+            });
+        });
     }
 
+    /**
+     * @returns {Promise}
+     */
     getAll() {
-        return this._DB;
+        return new Promise(function (resolve, reject) {
+
+            MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                console.log("Connected correctly to server.");
+
+                db.collection('boards')
+                    .find()
+                    .toArray(function(err, docs) {
+                        assert.equal(err, null, 'Error request from db');
+
+                        resolve(docs);
+
+                        db.close();
+                    });
+            });
+        });
     }
 
     insertBoard(board) {
-        this._DB.push(board);
+        return new Promise(function(resolve, reject) {
+            MongoClient.connect(url, function(err, db) {
+                assert.equal(null, err);
+                console.log("Connected correctly to server.");
+
+
+                resolve(db.collection('boards').insertOne(board));
+
+
+                db.close();
+            });
+        });
     }
 }
 
