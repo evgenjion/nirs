@@ -8,7 +8,8 @@ body
 
     &__left,
     &__center
-        float: left
+        vertical-align: top
+        display: inline-block
 
 .tools
     width: 64px
@@ -132,3 +133,33 @@ body
         text-shadow 1px 1px 1px #fff
 
         border-radius 0
+
+.side-menu_right
+    display: inline-block
+    vertical-align: top
+    margin: 22px 0 0 31px
+    padding: 0 0 8px
+
+    border: 3px solid $main_color
+
+    border-radius: 6px
+
+    width: 200px;
+
+    &__title
+        line-height: 150%;
+        text-align: center
+
+        border-bottom: 2px solid black;
+
+        //margin-bottom: 5px;
+
+.user
+    line-height: 200%;
+    width: 100%;
+    padding-left: 5px;
+
+    cursor: pointer
+
+    & + &
+        border-top: 1px dashed $dark_blue;
