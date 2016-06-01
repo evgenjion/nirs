@@ -2,6 +2,7 @@
 
 let crypto = require('crypto');
 let jade = require('jade');
+let _ = require('lodash');
 
 /**
  * @param {Object} app - express server
@@ -49,11 +50,29 @@ module.exports = (app) => {
             owner: sessID
         });
 
+        boardsModel.getAll()
+        .then(function(boards) {
+            console.log(boards);
+        });
+
         usersModel.addBoard({
             sessID,
             boardID
         });
 
-        res.redirect('/boards/paint/' + boardID);
+        res.redirect(`/boards/paint/${boardID}`);
+    });
+
+    app.get('/boards/my', (req, res) => {
+        let BoardsModel = require('../models/boards');
+        let boardsModel = new BoardsModel();
+
+        // TEMP:
+        // TODO: запрашивать это все в userModel
+        boardsModel.getAll()
+        .then(function(boards) {
+            // _.map instead of _.pluck (lodash v4)
+            res.send(_.map(boards, 'id').join());
+        });
     });
 };
