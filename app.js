@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express'),
     jade = require('jade'),
 
@@ -25,4 +27,4 @@ var server = app.listen(8080, function () {
     console.log('Example app listening at http://%s:%s', host, port);
 });
 
-socketServer = require('./backend/socket-server')(sessionHandler);
+let socketServer = require('./backend/socket-server')(sessionHandler);
