@@ -4,7 +4,7 @@
   "description": "This is about presentations and translation of them",
   "main": "app.js",
   "scripts": {
-    "preinstall": "bower install",
+    "postinstall": "bower install",
     "start": "node app.js"
   },
   "repository": {
@@ -35,6 +35,7 @@
     "ws": "^0.8.0"
   },
   "devDependencies": {
+    "bower": "^1.8.0",
     "browser-sync": "^2.2.1",
     "colors": "^1.0.3",
     "event-stream": "^3.3.1",
