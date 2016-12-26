@@ -6,20 +6,28 @@ var isProduction = process.argv.slice(-1)[0] === 'production',
 
     gulp        = require('gulp'),
     gulpif      = require('gulp-if'),
-
+    
     concat      = require('gulp-concat'),
+    insert      = require('gulp-insert'),
     uglify      = require('gulp-uglify'),
     es          = require('event-stream'),
 
+    // Typescript
     typescript  = require('gulp-typescript'),
     tsConfig    = typescript.createProject('tsconfig.json', {
                       typescript: require('typescript')
                   }),
 
+    // useful gulp debug
+    print       = require('gulp-print')
+
+    mocha       = require('gulp-spawn-mocha'),
     stylus      = require('gulp-stylus');
 
 
-// Собираем Stylus
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - STYLUS: - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - -
 gulp.task('stylus', function() {
     gulp.src('./frontend/styl/*.styl')
         // склеиваем, чтобы подтянулись конфиги
@@ -33,6 +41,9 @@ gulp.task('stylus', function() {
 });
 
 //TODO: можно собирать requirejs https://github.com/RobinThrift/gulp-requirejs
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - -JS/TypeScript BUILD: - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - -
 gulp.task('js', function() {
 
     function ts() {
@@ -42,7 +53,10 @@ gulp.task('js', function() {
     }
 
     function js() {
-        return gulp.src('./frontend/js/modules/**/*.js');
+        return gulp.src([
+            './frontend/js/modules/**/*.js', 
+            '!*.test.js' // Dont build tests as modules
+        ]);
     }
 
     return es.merge(ts(), js())
@@ -52,8 +66,8 @@ gulp.task('js', function() {
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - MAIN TASKS: - - - - - - - -
 // - - - - - - - - - - - - - - - - - - - - - - - -
-
 
 gulp.task('default', ['dev'], function() {});
 gulp.task('dev', ['stylus', 'js'], function() {
@@ -70,4 +84,19 @@ gulp.task('dev', ['stylus', 'js'], function() {
 
 gulp.task('production', ['stylus', 'js']);
 
-console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue ));
+console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue )); 
+
+// - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - TEST RUNNING: - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - -
+gulp.task('client-test', ['js'], function() {
+
+    gulp.src('./frontend/js/**/*.test.js')
+    // Для того, чтобы подключить main.test.js с настройками requirejs
+    .pipe(concat('all.test.js')) // TODO: gulp-insert
+    .pipe(gulp.dest('./tests/'))
+    .pipe(mocha({
+        reporter: 'nyan'
+    }));
+    
+});

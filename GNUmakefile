@@ -21,5 +21,8 @@ libs:
 	$(info ===> Устанавливаем библиотеки)
 	yarn install
 
+test:
+	node $(GULP) client-test
+
 clean:
 	rm -rf node_modules
