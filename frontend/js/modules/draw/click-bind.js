@@ -1,8 +1,11 @@
-define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/js/libs/jscolor.js'], function(NIRS, Controller, WS, colorPicker) {
+/* globals _ */
+
+define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/js/libs/jscolor.js'], function(NIRS, Controller, WS, colorPicker) { //jshint ignore: line
     $(function() {
         var tools__item = $('.tools__item'),
             canvas = Controller.getCanvas();
 
+        // Menu init
         tools__item.on('click', function(e) {
             var type = _.last(e.target.className.split('_'));
 
@@ -12,6 +15,7 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/
             Controller.setDrawType(type);
         });
 
+        // Colorpicker init
         $('.jscolor')[0].onchange = function() {
             var color = '#' + this.jscolor; // jscolor.toString() is necessary
 
@@ -23,6 +27,15 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/
                 }
             });
         };
+
+        // User list init
+        //jshint ignore: start
+        $('.user').click(function(e) {
+            var a/*: Boolean*/ = confirm('Вы действительно хотите передать управление для участника "' + $(e.target).text() + '"?');
+
+            if (a === true) console.log('TODO: GIVE PERMISSION TO USER');// TODO: GIVE PERMISSION TO USER
+        });
+        //jshint ignore: end
 
         bindDraw(canvas);
     });
