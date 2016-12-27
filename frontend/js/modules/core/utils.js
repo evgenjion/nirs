@@ -1,4 +1,4 @@
-define('core/utils', [], function() {
+define('core/utils', ['lodash'], function(_) {
 
     return {
         getCurrentBoardId: getCurrentBoardId,
@@ -29,7 +29,7 @@ define('core/utils', [], function() {
         this.on = function(e, h) {
             if (!_events[e]) _events[e] = [];
 
-            if(!_.contains(_events[e], h)) _events[e].push(h);
+            if(!_.includes(_events[e], h)) _events[e].push(h);
 
             return h;
         };
@@ -44,8 +44,8 @@ define('core/utils', [], function() {
          * @returns {boolean} result status
          */
         this.un = function(e, h) {
-            if (_.contains(_events[e], h)) {
-                _events[e].splice(_events[e].indexOf(h));
+            if (_.includes(_events[e], h)) {
+                _events[e].splice(_events[e].indexOf(h), 1);
                 return true;
             }
             return false;
