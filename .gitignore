@@ -11,3 +11,7 @@ public/js/owner/
 public/js/libs/
 tests/
 .vscode
+
+# code coverage:
+.nyc_output/
+coverage/
