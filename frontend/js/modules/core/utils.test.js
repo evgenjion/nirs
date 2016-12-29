@@ -1,9 +1,5 @@
 'use strict';
 
-let _ = require('lodash'),
-    sinon = require('sinon'),
-    {assert} = require('chai');
-
 describe('Utils module', function() {
     let Utils;
     

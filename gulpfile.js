@@ -91,9 +91,33 @@ console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue 
 // - - - - - - - - - - - - - - - - - - - - - - - -
 gulp.task('client-test', ['js'], function() {
 
+    const commonTestsConfig = `
+        'use strict';
+
+        // Импорт зависимых библиотек
+        let _ = require('lodash'),
+            sinon = require('sinon'),
+            {assert} = require('chai');
+
+        let requirejs = require('requirejs');
+
+        // Конфиг для require.
+        requirejs.config({
+            baseUrl: './public/js',
+            nodeRequire: require
+        });
+    `;
+
     gulp.src('./frontend/js/**/*.test.js')
-    // Для того, чтобы подключить main.test.js с настройками requirejs
+    // Подписываем файлы, чтобы удобнее было смотреть склеенный файл
+    .pipe(insert.transform(function(contents, file) {
+        var comment = `\n/* Test file path: ${file.path} */\n`;
+        return comment + contents;
+    }))
     .pipe(concat('all.test.js')) // TODO: gulp-insert
+     // Подключаем конфиги для require(единоразово),
+     // чтобы подключать файл по зависимостям из тестов
+    .pipe(insert.prepend(commonTestsConfig))
     .pipe(gulp.dest('./tests/'))
     .pipe(mocha({
         reporter: 'nyan'
