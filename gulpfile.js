@@ -114,7 +114,8 @@ gulp.task('client-test', ['js'], function() {
         var comment = `\n/* Test file path: ${file.path} */\n`;
         return comment + contents;
     }))
-    .pipe(concat('all.test.js')) // TODO: gulp-insert
+    // Объединяем в один для того, чтобы единоразово подтянуть общий код для всех тестов
+    .pipe(concat('all.test.js'))
      // Подключаем конфиги для require(единоразово),
      // чтобы подключать файл по зависимостям из тестов
     .pipe(insert.prepend(commonTestsConfig))
