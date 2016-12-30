@@ -55,7 +55,7 @@ gulp.task('js', function() {
     function js() {
         return gulp.src([
             './frontend/js/modules/**/*.js', 
-            '!*.test.js' // Dont build tests as modules
+            '!./frontend/js/modules/**/*.test.js' // Dont build tests as modules
         ]);
     }
 
