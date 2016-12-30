@@ -22,7 +22,7 @@ libs:
 	yarn install
 
 test:
-	npm run test
+	node $(GULP) client-test
 
 clean:
 	rm -rf node_modules
