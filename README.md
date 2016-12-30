@@ -1,11 +1,12 @@
 # nirs
 
-
+[![Build Status][travis-build-status]][travis]
 [![Travis Status][test-img]][travis]
 [![Coverage Status][coverage-img]][coveralls]
 
-[travis]:       https://travis-ci.org/evgenjion/nirs
-[test-img]:     https://img.shields.io/travis/evgenjion/nirs.svg?label=tests
+[travis]:               https://travis-ci.org/evgenjion/nirs
+[travis-build-status]:  https://travis-ci.org/evgenjion/nirs.svg?branch=dev
+[test-img]:             https://img.shields.io/travis/evgenjion/nirs.svg?label=tests
 
 [coveralls]:    https://coveralls.io/github/evgenjion/nirs?branch=dev
 [coverage-img]: https://coveralls.io/repos/github/evgenjion/nirs/badge.svg?branch=dev
