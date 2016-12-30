@@ -11,6 +11,8 @@
 [coveralls]:    https://coveralls.io/github/evgenjion/nirs?branch=dev
 [coverage-img]: https://coveralls.io/repos/github/evgenjion/nirs/badge.svg?branch=dev
 
+### Work in progress
+
 #### Совместное редактирование презентаций на основе Canvas. Или интерактивная веб доска
   * Язык программирования – JavaScript
   * Основа - http://fabricjs.com
@@ -25,10 +27,7 @@
 
 #### Запуск приложения
 ``` bash
-$ npm i
-$ node node_modules/.bin/gulp production
-$ node app.js #запустить node с поддержкой Ecma Script 6 (@see http://es6-features.org/ илиhttps://github.com/lukehoban/es6features)
+$ make
+$ node app.js
 ```
 
-#### Ссылка на продакшен:
-http://vm110.cloud.dig.center
