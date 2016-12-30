@@ -1,4 +1,5 @@
-define('draw/core', [], function() {
+// fabric пока загрузить нельзя из-за клиентских тестов
+define('draw/core', ['lodash'], function(_) {
     var CURRENT_COLOR = '#000000';
 
     /**

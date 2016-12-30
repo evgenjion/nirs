@@ -91,6 +91,13 @@ console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue 
 // - - - - - - - - - - - - - - - - - - - - - - - -
 gulp.task('client-test', ['js'], function() {
 
+    // fabric.js нельзя загрузить через node.js(из которой запускаются тесты)
+    // поэтому стабаем руками:(
+    const fabricStub = `
+        global.fabric = {
+            Canvas: sinon.stub()
+        };
+    `;
     const commonTestsConfig = `
         'use strict';
 
@@ -106,6 +113,12 @@ gulp.task('client-test', ['js'], function() {
             baseUrl: './public/js',
             nodeRequire: require
         });
+
+        // Стабаем конструктор браузерный конструктор Websocket
+        global.WebSocket = sinon.stub();
+
+        // Стабаем fabric.js:
+        ${fabricStub}
     `;
 
     gulp.src('./frontend/js/**/*.test.js')

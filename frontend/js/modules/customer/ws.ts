@@ -12,10 +12,6 @@ import * as DrawController from 'draw/controller'
 
 import Utils = require('core/utils');
 
-// Temp:( for IDE
-declare var Utils:any;
-declare var DrawController:any;
-
 let WS = Base.WebsocketTransport;
 
 class WebSocketClient extends WS {

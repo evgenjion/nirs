@@ -19,14 +19,6 @@ describe('Common websocket module', function(){
     });
 
     describe('instance', function(){
-        before(function(){
-            global.WebSocket = sinon.spy();
-        });
-
-        after(function(){
-            global.WebSocket = undefined;
-        });
-
         it('should have property socket which is instance of window.WebSocket', function(){
             const ws = new WS();
 
