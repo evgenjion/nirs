@@ -14,7 +14,8 @@
     "postinstall": "bower install",
     "start": "node app.js",
     "test": "nyc node ./node_modules/.bin/gulp client-test",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint ."
   },
   "keywords": [
     "nirs",
@@ -45,6 +46,7 @@
     "chai": "^3.5.0",
     "colors": "^1.0.3",
     "coveralls": "^2.11.15",
+    "eslint": "^3.13.0",
     "event-stream": "^3.3.1",
     "gulp": "^3.8.11",
     "gulp-concat": "*",

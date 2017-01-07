@@ -1,0 +1,8 @@
+node_modules/
+public/
+tests/
+.vscode
+
+# code coverage:
+.nyc_output/
+coverage/
