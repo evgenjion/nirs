@@ -13,21 +13,18 @@
 
 ### Work in progress
 
-#### Совместное редактирование презентаций на основе Canvas. Или интерактивная веб доска
-  * Язык программирования – JavaScript
-  * Основа - http://fabricjs.com
-  * Создание, перемещение, трансформация базовых геометрических фигур
-  * Возможность вывести текст внутри фигур
-  * возможность создать линии, стрелки
-  * снаппинг фигур и стрелок/линий ( если линия привязана к краю фигуры, то при перемещении фигуры, край линии также идет вслед за ней)
-  * Наблюдать за редактированием документа могут сразу несколько человек, редактировать может тоьлко один, но он может передать право управления другому учаснику
-
+#### Mutual presentations edit. Interactive web-canvas.
+  * Drawing geometric figures, lines and arows, transformation, transfer of them.
+  * Writing text
+  * Ability to real time watching of changing document
+  * Ability to give permissions of drawing.
 
 ===
 
-#### Запуск приложения
+#### Run app
 ``` bash
 $ make
+
+# Be shure that mongod started.
 $ node app.js
 ```
-
