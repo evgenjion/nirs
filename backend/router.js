@@ -4,13 +4,14 @@
  * @param {Express} app - инстанс express
  */
 
+/* global __dirname */
+
 'use strict';
 
 let express = require('express'),
     jade = require('jade');
 
 module.exports = (app) => {
-
     app.get('/', (req, res) => {
         res.send(jade.renderFile('./backend/views/main.jade'));
     });
@@ -21,5 +22,4 @@ module.exports = (app) => {
     let rootFoldier = __dirname.split('/').slice(0, -1).join('/');
 
     app.use('/public', express.static(rootFoldier + '/public'));
-
 };

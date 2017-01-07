@@ -17,7 +17,7 @@ define('draw/core', ['lodash'], function(_) {
       *
       * common interface for all shapes
       */
-    var Shape = function (left, top) {};
+    var Shape = function(left, top) {}; // eslint-disable-line no-unused-vars
 
     Shape.prototype.update = _.noop;
     Shape.prototype.getParams = _.noop;
@@ -54,8 +54,8 @@ define('draw/core', ['lodash'], function(_) {
         };
 
         this.getParams = function(x, y) {
-            var rx = x/2,
-                ry = y/2,
+            var rx = x / 2,
+                ry = y / 2,
 
             // when mouse to the left than at start of drawing
                 isInversed = rx < 0;
@@ -66,7 +66,7 @@ define('draw/core', ['lodash'], function(_) {
             return {
                 rx: rx,
                 ry: ry,
-                left: left - (isInversed ? rx*2 : 0),
+                left: left - (isInversed ? rx * 2 : 0),
                 fill: CURRENT_COLOR,
                 top: top
             };
@@ -77,8 +77,8 @@ define('draw/core', ['lodash'], function(_) {
     var Line = function(left, top) {
         var x1 = left,
             y1 = top,
-            x2 = left+1,
-            y2 = top+1;
+            x2 = left + 1,
+            y2 = top + 1;
 
         this.update = function(params) {
             var x = params.left,
@@ -112,13 +112,18 @@ define('draw/core', ['lodash'], function(_) {
     };
     extend(Line, Shape);
 
-    var Arrow = function (initialLeft, initialTop) {
+    var Arrow = function(initialLeft, initialTop) {
         var startParams = [
-            { x: 0  ,  y:  0  },
-            { x: 7,    y:  0  },
-            { x: 1 ,   y:  3  },
-            { x: 1 ,   y: -3  },
-            { x: 7,    y:  0  }
+            { x: 0  ,
+                y:  0  },
+            { x: 7,
+                y:  0  },
+            { x: 1 ,
+                y:  3  },
+            { x: 1 ,
+                y: -3  },
+            { x: 7,
+                y:  0  }
         ];
 
         this.update = function(params) {
@@ -136,12 +141,16 @@ define('draw/core', ['lodash'], function(_) {
                 Math.pow(left, 2) + Math.pow(top, 2)
             );
 
-            points[1] = { x: ZERO_POINT_X + len    ,  y: ZERO_POINT_Y      };
-            points[2] = { x: ZERO_POINT_X + len - 6,  y: ZERO_POINT_Y + 3  };
-            points[3] = { x: ZERO_POINT_X + len - 6,  y: ZERO_POINT_Y - 3  };
-            points[4] = { x: ZERO_POINT_X + len    ,  y: ZERO_POINT_Y      };
+            points[1] = { x: ZERO_POINT_X + len    ,
+                y: ZERO_POINT_Y      };
+            points[2] = { x: ZERO_POINT_X + len - 6,
+                y: ZERO_POINT_Y + 3  };
+            points[3] = { x: ZERO_POINT_X + len - 6,
+                y: ZERO_POINT_Y - 3  };
+            points[4] = { x: ZERO_POINT_X + len    ,
+                y: ZERO_POINT_Y      };
 
-            //Находим косинус угла между векторами
+            // Находим косинус угла между векторами
             // initial vector
             var A = [100, 0],
 
@@ -178,7 +187,7 @@ define('draw/core', ['lodash'], function(_) {
             return startParams;
         };
 
-        this.getStartParams = function(){
+        this.getStartParams = function() {
             return {
                 left: initialLeft,
                 top: initialTop,
@@ -187,19 +196,18 @@ define('draw/core', ['lodash'], function(_) {
             };
         };
 
-        this.getDrawingFunctionName = function(){ return 'Polygon' };
+        this.getDrawingFunctionName = function() { return 'Polygon'; };
     };
     extend(Arrow, Line);
 
     var Text = function(left, top) {
         this.__text = '|';
 
-        this.update = function (params) {
-
+        this.update = function(params) {
             if (params.backspace) {
                 this.__text = this.__text.slice(0, -2) + '|';
             } else {
-                if(!params.text) return;
+                if (!params.text) return;
 
                 this.__text = this.__text.slice(0, -1) + params.text + '|';
             }
@@ -209,11 +217,11 @@ define('draw/core', ['lodash'], function(_) {
             };
         };
 
-        this.getParams = function () {
+        this.getParams = function() {
             return '|';
         };
 
-        this.getStartParams = function () {
+        this.getStartParams = function() {
             return {
                 left: left,
                 top: top
@@ -221,7 +229,7 @@ define('draw/core', ['lodash'], function(_) {
         };
 
         // TODO: fix
-        this.end = function () {
+        this.end = function() {
             this.__text = this.__text.slice(0, -1);
         };
     };
@@ -235,13 +243,13 @@ define('draw/core', ['lodash'], function(_) {
         if (~['Rect', 'Triangle'].indexOf(type)) return Rect;
 
         switch (type) {
-            case 'Rect':
-            case 'Triangle': return Rect;
+        case 'Rect':
+        case 'Triangle': return Rect;
 
-            case 'Ellipse': return Ellipse;
-            case 'Line': return Line;
-            case 'Arrow': return Arrow;
-            case 'Text': return Text;
+        case 'Ellipse': return Ellipse;
+        case 'Line': return Line;
+        case 'Arrow': return Arrow;
+        case 'Text': return Text;
         }
     }
 
@@ -269,7 +277,7 @@ define('draw/core', ['lodash'], function(_) {
          * @param {Number} params.left left mouse coord
          * @param {Number} params.right right mouse coord
          */
-        start: function (canvas, params) {
+        start: function(canvas, params) {
             var Shape = getObjParams(params.type),
                 drawingObjParams = this.drawingObjParams = new Shape(params.left, params.top),
 
@@ -286,7 +294,7 @@ define('draw/core', ['lodash'], function(_) {
         /**
          * Calls on mouseup
          */
-        end: function () {
+        end: function() {
             this.drawingObj = undefined;
         },
 

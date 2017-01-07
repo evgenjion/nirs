@@ -1,3 +1,5 @@
+/* globals $, _ */
+// eslint-disable-next-line
 define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/js/libs/jscolor.js'], function(NIRS, Controller, WS, colorPicker) {
     $(function() {
         var tools__item = $('.tools__item'),
@@ -61,7 +63,7 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/
             };
 
             // Не слать лишнее
-            if(
+            if (
                 !isNaN(params.left) &&
                 !isNaN(params.top) &&
                 Controller.needDrawing()
@@ -82,7 +84,7 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/
          *
          */
         $(document).on({
-            keypress: function (e) {
+            keypress: function(e) {
                 var text = String.fromCharCode(e.which);
 
                 WS.send({
@@ -93,7 +95,7 @@ define('draw/click-bind', ['core/core', 'draw/controller', 'owner/ws', '/public/
                     }
                 });
             },
-            keydown: function (e) {
+            keydown: function(e) {
                 if (e.which === 8) { // Backspace
                     WS.send({
                         type: 'EVENT',

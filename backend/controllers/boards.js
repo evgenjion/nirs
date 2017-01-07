@@ -4,11 +4,12 @@ let crypto = require('crypto');
 let jade = require('jade');
 let _ = require('lodash');
 
+/* eslint "no-console": "warn" */
+
 /**
  * @param {Object} app - express server
  */
 module.exports = (app) => {
-
     app.get('/boards/paint/:id', (req, res) => {
         let boardID = req.params.id;
 
@@ -17,7 +18,7 @@ module.exports = (app) => {
 
         let isOwner = false;
 
-        if(userBoards.find(i => i === boardID)) {
+        if (userBoards.find(i => i === boardID)) {
             isOwner = true;
         }
 

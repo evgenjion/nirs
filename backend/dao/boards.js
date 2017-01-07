@@ -4,16 +4,15 @@
  * boards - это интерактивные доски
  */
 
-'use strict';
+// TODO: убрать
+/* eslint "no-unused-vars": "warn", "no-console": "warn" */
 
-let _ = require('lodash');
+'use strict';
 
 let MongoClient = require('mongodb').MongoClient;
 let assert = require('assert');
 
 let url = 'mongodb://localhost:27017/nirs';
-
-
 
 
 class BoardsDAO {
@@ -33,12 +32,12 @@ class BoardsDAO {
         return new Promise(function(resolve, reject) {
             MongoClient.connect(url, function(err, db) {
                 assert.equal(null, err);
-                console.log("Connected correctly to server.");
+                console.log('Connected correctly to server.');
 
 
                 resolve(db.collection('boards')
                     .find({ id: hash }))
-                    .toArray(function(arr, db) {
+                    .toArray(function(arr, docs) {
                         assert.equal(err, null, 'Error request from db');
 
                         resolve(docs);
@@ -53,11 +52,10 @@ class BoardsDAO {
      * @returns {Promise}
      */
     getAll() {
-        return new Promise(function (resolve, reject) {
-
+        return new Promise(function(resolve, reject) {
             MongoClient.connect(url, function(err, db) {
                 assert.equal(null, err);
-                console.log("Connected correctly to server.");
+                console.log('Connected correctly to server.');
 
                 db.collection('boards')
                     .find()
@@ -76,7 +74,7 @@ class BoardsDAO {
         return new Promise(function(resolve, reject) {
             MongoClient.connect(url, function(err, db) {
                 assert.equal(null, err);
-                console.log("Connected correctly to server.");
+                console.log('Connected correctly to server.');
 
 
                 resolve(db.collection('boards').insertOne(board));
@@ -86,6 +84,7 @@ class BoardsDAO {
             });
         });
     }
+
 }
 
 module.exports = BoardsDAO;

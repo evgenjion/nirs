@@ -1,8 +1,6 @@
 'use strict';
 
 var express = require('express'),
-    jade = require('jade'),
-
     app = express(),
     session = require('express-session'),
 
@@ -12,19 +10,19 @@ var express = require('express'),
         saveUninitialized: true,
         // TODO: разобраться, в дев режиме без него не работает
         cookie: { secure: false }
-    }),
-
-    router;
+    });
 
 app.use(sessionHandler);
 
-router = require('./backend/router')(app);
+// Инициализируем роутер
+require('./backend/router')(app);
 
-var server = app.listen(8080, function () {
+var server = app.listen(8080, function() {
     var host = server.address().address;
     var port = server.address().port;
-
+    // eslint-disable-next-line no-console
     console.log('Example app listening at http://%s:%s', host, port);
 });
 
-let socketServer = require('./backend/socket-server')(sessionHandler);
+// Инициализируем сервер для сокетов
+require('./backend/socket-server')(sessionHandler);

@@ -68,10 +68,17 @@ rules:
     - after: true
   space-before-blocks:
     - error
+  no-case-declarations:
+    - warn
 
 globals:
+    # tests libs
+    sinon: true
+    assert: true
+    # client libs:
     fabric: true
     requirejs: true
-    assert: true
+    _: true
+    $: true
 
 # TODO: пройтись по http://eslint.org/docs/rules/

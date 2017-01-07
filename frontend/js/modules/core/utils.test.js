@@ -5,9 +5,9 @@ describe('Utils module', function() {
     
     const LOCATION = 'fake/address/location/path';
 
-    before(function(done){
+    before(function(done) {
         // Импорт amd модуля
-        requirejs(['core/utils'], function (coreUtils) {
+        requirejs(['core/utils'], function(coreUtils) {
             Utils = coreUtils;
             done();
         });
@@ -15,7 +15,7 @@ describe('Utils module', function() {
         _.set(global, 'window.location.href', LOCATION);
     });
 
-    after(function(){
+    after(function() {
         global.window = undefined;
     });
 
@@ -40,7 +40,7 @@ describe('Utils module', function() {
             sinon.restore();
         });
 
-        it('should add handler to an event and call on trigger', function(){
+        it('should add handler to an event and call on trigger', function() {
             const eventName = 'EVENT_NAME';
 
             Observer.on(eventName, handler);
@@ -49,7 +49,7 @@ describe('Utils module', function() {
             assert(handler.calledOnce, 'Handler wasnt called after combination of .on(e, handler) and trigger(e)');
         });
 
-        it('should add handler and remove it with .un()', function(){
+        it('should add handler and remove it with .un()', function() {
             const eventName = 'EVENT_NAME';
 
             Observer.on(eventName, handler);
@@ -60,7 +60,7 @@ describe('Utils module', function() {
             assert(handler.notCalled, 'Handler was called after combination of .on(e, handler) and un(e, handler)');
         });
 
-        it('should remove only one handler with .un()', function(){
+        it('should remove only one handler with .un()', function() {
             const eventName = 'EVENT_NAME';
 
             Observer.on(eventName, handler);
@@ -73,7 +73,7 @@ describe('Utils module', function() {
             assert(handler1.calledOnce, 'Handler wasnt called after combination of .on(e, handler) .un(e, AnotherHandler) and trigger(e)');
         });
 
-        it('should remove all handlers with .off()', function(){
+        it('should remove all handlers with .off()', function() {
             const eventName = 'EVENT_NAME';
 
             Observer.on(eventName, handler);
@@ -86,5 +86,5 @@ describe('Utils module', function() {
             assert(handler.notCalled, 'Handler was called after combination of .on(e, handler) and off(e)');
             assert(handler1.notCalled, 'Handler was called after combination of .on(e, handler) and off(e)');
         });
-    })
+    });
 });

@@ -9,6 +9,7 @@
 let _ = require('lodash');
 
 class UsersDAO {
+
     constructor() {
         if (UsersDAO.__instance) return UsersDAO.__instance;
 
@@ -79,6 +80,7 @@ class UsersDAO {
         // TODO: обратить внимание, когда будет БД
         return user;
     }
+
 }
 
 module.exports = UsersDAO;

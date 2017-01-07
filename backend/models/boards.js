@@ -10,6 +10,7 @@ let BoardsDAO = require('../dao/boards');
  * @Singletone
  */
 class Boards {
+
     constructor() {
         if (Boards.__instance) return Boards.__instance;
 
@@ -36,6 +37,7 @@ class Boards {
     insertBoard(board) {
         return this._DAO.insertBoard(board);
     }
+
 }
 
 module.exports = Boards;

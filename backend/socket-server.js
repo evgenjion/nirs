@@ -18,31 +18,32 @@ module.exports = (sessionHandler) => {
         let req = ws.upgradeReq;
         let res = { writeHead: {} }; // Particularly nasty
 
-        sessionHandler(req, res, function (err) {
+        sessionHandler(req, res, function(err) { // eslint-disable-line no-unused-vars
             ws.on('message', function(message) {
-                console.log('получено сообщение ' + message);
+                console.log('получено сообщение ' + message); // eslint-disable-line no-console
 
                 let info = JSON.parse(message);
 
                 // one from SocketAction
                 switch (info.type) {
-                    case 'CONNECT':
-                        let boardID = info.data
-                        req.session.currentBoard = boardID;
-                        connections[boardID] || (connections[boardID] = []);
-                        connections[boardID].push(ws);
-                        break;
+                case 'CONNECT':
+                    let boardID = info.data;
+                    req.session.currentBoard = boardID;
+                    connections[boardID] || (connections[boardID] = []);
+                    connections[boardID].push(ws);
+                    break;
 
-                    default:
-                        connections[req.session.currentBoard].forEach(function(ws, i) {
-                            ws.send(JSON.stringify(info));
-                        });
-                        break;
+                default:
+                    connections[req.session.currentBoard].forEach(function(ws) {
+                        ws.send(JSON.stringify(info));
+                    });
+                    break;
                 }
             });
 
             // TODO: выпилить из connections
             ws.on('close', function() {
+                // eslint-disable-next-line no-console
                 console.log('соединение закрыто ' + req.sessionID);
             });
         });

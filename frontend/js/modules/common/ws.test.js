@@ -1,14 +1,14 @@
-describe('Common websocket module', function(){
+describe('Common websocket module', function() {
     let WS;
-    before(function(done){
+    before(function(done) {
         // Импорт amd модуля
-        requirejs(['common/ws'], function (ws) {
+        requirejs(['common/ws'], function(ws) {
             WS = ws.WebsocketTransport;
             done();
         });
     });
 
-    it('should have static property "types" with types of event', function(){
+    it('should have static property "types" with types of event', function() {
         assert.property(WS, 'types');
 
         assert.property(WS.types, 'CONNECT');
@@ -18,8 +18,8 @@ describe('Common websocket module', function(){
         assert.property(WS.types, 'EVENT');
     });
 
-    describe('instance', function(){
-        it('should have property socket which is instance of window.WebSocket', function(){
+    describe('instance', function() {
+        it('should have property socket which is instance of window.WebSocket', function() {
             const ws = new WS();
 
             assert.instanceOf(ws.socket, WebSocket);

@@ -1,12 +1,13 @@
+/* global process */
+/* eslint indent: "off", no-console: "off" */
 var isProduction = process.argv.slice(-1)[0] === 'production',
 
     browserSync = require('browser-sync'),
     reload      = browserSync.reload,
-    colors      = require('colors'),
 
     gulp        = require('gulp'),
     gulpif      = require('gulp-if'),
-    
+
     concat      = require('gulp-concat'),
     insert      = require('gulp-insert'),
     uglify      = require('gulp-uglify'),
@@ -19,11 +20,13 @@ var isProduction = process.argv.slice(-1)[0] === 'production',
                   }),
 
     // useful gulp debug
-    print       = require('gulp-print')
+    print       = require('gulp-print'), // eslint-disable-line
 
     mocha       = require('gulp-spawn-mocha'),
     stylus      = require('gulp-stylus');
 
+// extend String.prototype by colors
+require('colors');
 
 // - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - STYLUS: - - - - - - - - - -
@@ -37,15 +40,14 @@ gulp.task('stylus', function() {
         )) // собираем stylus
     .on('error', console.log) // Если есть ошибки, выводим и продолжаем
     .pipe(gulp.dest('./public/css/')) // записываем css
-    .pipe(reload({stream: true}));
+    .pipe(reload({ stream: true }));
 });
 
-//TODO: можно собирать requirejs https://github.com/RobinThrift/gulp-requirejs
+// TODO: можно собирать requirejs https://github.com/RobinThrift/gulp-requirejs
 // - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - -JS/TypeScript BUILD: - - - - - - -
 // - - - - - - - - - - - - - - - - - - - - - - - -
 gulp.task('js', function() {
-
     function ts() {
         return gulp.src('./frontend/js/modules/**/*.ts')
             .pipe(typescript(tsConfig))
@@ -62,7 +64,7 @@ gulp.task('js', function() {
     return es.merge(ts(), js())
             .pipe(gulpif(isProduction, uglify()))
             .pipe(gulp.dest('./public/js/'))
-            .pipe(reload({stream: true}));
+            .pipe(reload({ stream: true }));
 });
 
 // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -72,7 +74,7 @@ gulp.task('js', function() {
 gulp.task('default', ['dev'], function() {});
 gulp.task('dev', ['stylus', 'js'], function() {
     browserSync({
-       proxy: "localhost:8080"
+       proxy: 'localhost:8080'
     });
 
     gulp.watch('./frontend/styl/*.styl', ['stylus']);
@@ -84,13 +86,12 @@ gulp.task('dev', ['stylus', 'js'], function() {
 
 gulp.task('production', ['stylus', 'js']);
 
-console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue )); 
+console.log('Started as '.green + (isProduction ? 'production'.red : 'Dev'.blue));
 
 // - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - TEST RUNNING: - - - - - -
 // - - - - - - - - - - - - - - - - - - - - - - - -
 gulp.task('client-test', ['js'], function() {
-
     // fabric.js нельзя загрузить через node.js(из которой запускаются тесты)
     // поэтому стабаем руками:(
     const fabricStub = `
@@ -136,5 +137,4 @@ gulp.task('client-test', ['js'], function() {
     .pipe(mocha({
         reporter: 'nyan'
     }));
-    
 });

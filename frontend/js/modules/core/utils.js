@@ -1,5 +1,4 @@
 define('core/utils', ['lodash'], function(_) {
-
     return {
         getCurrentBoardId: getCurrentBoardId,
         // Observer pattern
@@ -29,7 +28,7 @@ define('core/utils', ['lodash'], function(_) {
         this.on = function(e, h) {
             if (!_events[e]) _events[e] = [];
 
-            if(!_.includes(_events[e], h)) _events[e].push(h);
+            if (!_.includes(_events[e], h)) _events[e].push(h);
 
             return h;
         };
@@ -73,7 +72,7 @@ define('core/utils', ['lodash'], function(_) {
          */
         this.trigger = function(e, data) {
             if (Array.isArray(_events[e])) {
-                _events[e].forEach(function(f){
+                _events[e].forEach(function(f) {
                     f(data);
                 });
                 return true;
@@ -82,4 +81,3 @@ define('core/utils', ['lodash'], function(_) {
         };
     }
 });
-

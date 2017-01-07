@@ -7,6 +7,7 @@
 let UsersDAO = require('../dao/users');
 
 class Users {
+
     constructor() {
         if (Users.__instance) return Users.__instance;
         this._DAO = new UsersDAO();
@@ -38,6 +39,7 @@ class Users {
     addBoard(params) {
         return this._DAO.addBoard(params.sessID, params.boardID);
     }
+
 }
 
 module.exports = Users;
