@@ -3,6 +3,9 @@ node_js:
   - "7.3"
 env: COVERALLS=1
 
+notifications:
+  email: false
+
 before_script:
   - npm run lint
 after_success:
