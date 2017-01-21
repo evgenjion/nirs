@@ -1,0 +1,10 @@
+rootUrl: http://localhost:8080
+gridUrl: localhost
+
+browsers:
+  PhantomJS:
+    desiredCapabilities:
+      browserName: phantomjs
+    windowSize: '1280x1024'
+
+screenshotsDir: 'gemini/references/'

@@ -1,6 +1,6 @@
 node_modules/
 public/
-tests/
+./tests/
 .vscode
 
 # code coverage:

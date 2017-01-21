@@ -75,6 +75,7 @@ globals:
     # tests libs
     sinon: true
     assert: true
+    gemini: true
     # client libs:
     fabric: true
     requirejs: true

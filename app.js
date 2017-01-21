@@ -12,12 +12,14 @@ var express = require('express'),
         cookie: { secure: false }
     });
 
+const PORT = require('process').env.PORT || 8080;
+
 app.use(sessionHandler);
 
 // Инициализируем роутер
 require('./backend/router')(app);
 
-var server = app.listen(8080, function() {
+var server = app.listen(PORT, function() {
     var host = server.address().address;
     var port = server.address().port;
     // eslint-disable-next-line no-console

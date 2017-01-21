@@ -27,4 +27,22 @@ $ make
 
 # Be shure that mongod started.
 $ node app.js
+
+# Start on specific PORT(8080 by default)
+$ PORT=80 node app.js
 ```
+
+#### Testing
+```
+# make unit-tests
+$ make test
+```
+
+##### Screenshot testing
+You should run phantomjs as a webdriver: `$ phantomjs --webdriver=4444`
+
+*Run:*
+`$ npm run gemini`
+
+or call certain test directly:
+`$ node_modules/.bin/gemini-gui gemini/tests/test.gemini.js`
