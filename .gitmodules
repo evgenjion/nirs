@@ -1,0 +1,3 @@
+[submodule "gemini/references"]
+	path = gemini/references
+	url = https://github.com/evgenjion/nirs-references
