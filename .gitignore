@@ -10,6 +10,7 @@ public/js/customer/
 public/js/owner/
 public/js/libs/
 tests/
+!gemini/tests/
 .vscode
 
 # code coverage:
