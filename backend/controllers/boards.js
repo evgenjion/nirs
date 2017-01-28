@@ -14,7 +14,14 @@ module.exports = (app) => {
         let boardID = req.params.id;
 
         let UsersModel = require('../models/users');
-        let userBoards = new UsersModel().getUserBoards(req.sessionID);
+
+        // FIXME: Временно костыляем для тестов :(
+        const GEMINI_ENV = 'GEMINI_MASTER_TEST_ENV';
+        const sessID = boardID === GEMINI_ENV ?
+            GEMINI_ENV :
+            req.sessionID;
+
+        let userBoards = new UsersModel().getUserBoards(sessID);
 
         let isOwner = false;
 
@@ -53,7 +60,7 @@ module.exports = (app) => {
 
         boardsModel.getAll()
         .then(function(boards) {
-            console.log(boards);
+            console.log(boards); // eslint-disable-line no-console
         });
 
         usersModel.addBoard({

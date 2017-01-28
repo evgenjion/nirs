@@ -43,6 +43,15 @@ class UsersDAO {
      * @returns {String[]} Массив ID досок
      */
     getUserBoards(hash) {
+        // FIXME: refactor
+        if (hash === 'GEMINI_MASTER_TEST_ENV') {
+            // для тестов возвращаем список досок,
+            // чтобы быть владельцем доски в тестовом окружении
+            return [
+                'GEMINI_MASTER_TEST_ENV'
+            ];
+        }
+
         return (_.find(this._DB, {
             sessionID: hash
         }) || {}).boards || [] ;
