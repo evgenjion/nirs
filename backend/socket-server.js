@@ -22,27 +22,36 @@ module.exports = (sessionHandler) => {
             ws.on('message', function(message) {
                 console.log('получено сообщение ' + message); // eslint-disable-line no-console
 
-                let info = JSON.parse(message);
+                const info = JSON.parse(message),
+                    boardID = info.data;
 
                 // one from SocketAction
                 switch (info.type) {
                 case 'CONNECT':
-                    let boardID = info.data;
                     req.session.currentBoard = boardID;
+
                     connections[boardID] || (connections[boardID] = []);
                     connections[boardID].push(ws);
+
+                    ws.boardID = boardID;
                     break;
 
                 default:
                     connections[req.session.currentBoard].forEach(function(ws) {
-                        ws.send(JSON.stringify(info));
+                        ws && ws.send(JSON.stringify(info));
                     });
                     break;
                 }
             });
 
-            // TODO: выпилить из connections
             ws.on('close', function() {
+                const { boardID } = ws,
+                    boardRoom = connections[boardID];
+
+                if (!boardRoom) return;
+
+                boardRoom.splice(boardRoom.indexOf(ws), 1);
+
                 // eslint-disable-next-line no-console
                 console.log('соединение закрыто ' + req.sessionID);
             });
