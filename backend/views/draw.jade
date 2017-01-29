@@ -9,26 +9,36 @@ block content
             .content__left
                 .tools
                     ul
-                        li.tools__item.tools__item_type_rectangle
-                        li.tools__item.tools__item_type_ellipse
-                        li.tools__item.tools__item_type_triangle
-                        li.tools__item.tools__item_type_text
-                        li.tools__item.tools__item_type_line
-                        li.tools__item.tools__item_type_arrow
-                        li.tools__item.tools__item_type_move
-                        li.tools__item.tools__item_type_cursor.active
-                        li.tools__item.tools__item_type_color
-                            input.jscolor(value="000000")
+                        li.tools__item
+                            .icon_type_rectangle
+                        li.tools__item
+                            .icon_type_ellipse
+                        li.tools__item
+                            .icon_type_triangle
+                        li.tools__item
+                            .icon_type_text
+                        li.tools__item
+                            .icon_type_line
+                        li.tools__item
+                            .icon_type_arrow
+                        li.tools__item
+                            .icon_type_move
+                        li.tools__item
+                            .icon_type_cursor.active
+                        li.tools__item
+                            .icon_type_color
+                                input.jscolor(value="000000")
 
         .content__center
             canvas#canvas(width="800", height="600") Обновите свой браузер для поддержки canvas
-        .side-menu_right
-            .side-menu_right__title Участники:
+        .side-menu-wrapper
             .userlist
-                .user Василий
-                .user Анатолий
-                .user Николай
-                .user Степан
+                .userlist__title Участники
+                .userlist__content
+                    .userlist__item Василий
+                    .userlist__item Анатолий
+                    .userlist__item Николай
+                    .userlist__item Степан
 
     .meta= isOwner ? 'Master' : 'Slave'
     .meta

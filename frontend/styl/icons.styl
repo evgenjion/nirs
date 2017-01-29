@@ -1,0 +1,173 @@
+// Файл с иконками
+
+.tools
+    width: 64px
+    cursor: pointer
+
+    ul
+        list-style: none
+        overflow: hidden
+        padding-bottom: 1px;
+
+    $width = 32px
+    $height = 32px
+    $line-width = 2px
+
+    &__item
+        box-sizing: border-box
+        width: $width
+        height: $height
+        border: 1px solid rgba(0, 0, 0, .5);
+
+        margin: 0 0 -1px -1px
+
+        float: left
+
+        .icon
+            &_type_rectangle
+                border: $line-width solid black;
+                width: 100%;
+                height: 100%;
+
+                transform: scale(.8);
+
+                box-sizing: border-box;
+
+            &_type_ellipse
+                border-radius: 50%;
+                border: $line-width solid black;
+
+                width: 100%;
+                height: 100%;
+
+                transform: scale(.8);
+
+                box-sizing: border-box;
+
+            &_type_triangle
+                border-bottom: $line-width solid black;
+
+                height: 100%;
+
+                box-sizing: border-box;
+
+                transform: scale(.8);
+
+                position: relative;
+
+                &::before
+                    border-left: $line-width solid black;
+
+                    content: '';
+
+                    height: 100%;
+                    width: 100%;
+
+                    position: absolute;
+                    bottom: -34%;
+                    left: 18%;
+
+                    transform: rotate(30deg);
+
+                    display: block;
+
+                &::after
+                    border-left: $line-width solid black;
+
+                    content: '';
+
+                    height: 102%;
+                    width: 100%;
+
+                    position: absolute;
+                    bottom: 18%;
+                    right: -70%;
+
+                    transform: rotate(-30deg);
+
+                    display: block;
+
+            &_type_text
+                font-family: "Times new Roman", Times;
+                height: 100%;
+                text-align: center;
+
+                &::after
+                    font-size: $width; /* равная ширине элемента */
+                    display: inline-block;
+                    line-height: 100%;
+                    content: 'A';
+
+            &_type_line
+                border-bottom: $line-width solid black;
+                transform: rotate(-45deg);
+                position: relative;
+                top: 50%;
+
+
+            &_type_arrow
+                border-bottom: $line-width solid black;
+                transform: rotate(-45deg);
+                position: relative;
+                top: 40%;
+                height: 10%;
+
+                &::before
+                    border: inherit;
+                    transform: rotate(25deg);
+                    position: absolute;
+
+                    width: 30%;
+                    content: '';
+                    display: block;
+                    top: 70%;
+                    right: 0%;
+
+                &::after
+                    border: inherit;
+                    transform: rotate(-20deg);
+                    position: absolute;
+
+                    width: 30%;
+                    content: '';
+                    display: block;
+                    top: 130%;
+                    right: 0%;
+
+            &_type_move
+                width: 100%;
+                height: 100%;
+                background: embedurl('arrows-icon-uncompressed.svg', 'utf8') -15px 0 no-repeat
+                background-size: cover
+                transform: scale(.8)
+
+
+            &_type_cursor
+                width: 100%;
+                height: 100%;
+                background: embedurl('mousearrow.svg') 0 0 no-repeat;
+                background-size: cover;
+                transform: scale(.6);
+
+            &_type_color
+                height: 100%
+                width: 100%
+
+                .jscolor
+                    width: 100%;
+                    height: 100%;
+                    box-sizing: border-box;
+                    border: 1px solid $main_color;
+                    // перебиваем инлайн стили из библиотеки
+                    color: transparent !important;
+
+        .active&
+            position: relative;
+
+            &:after
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: $black;
+                opacity: .2;
+                content: '';

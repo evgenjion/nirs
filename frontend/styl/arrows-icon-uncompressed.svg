@@ -1,4 +1,4 @@
-<svg width="200" height="200"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="200" height="100"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="double-arrow">
       <path id="arrow" d="M 50 25 L 50 0 L 47.5 6 M 50 0 L 52.5 6" style="stroke: black; fill: transparent;" transform="scale(2, 2)"/>
       <use xlink:href="#arrow" transform="scale(1 -1)  translate(0 -100)" />

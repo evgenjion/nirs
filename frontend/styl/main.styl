@@ -1,9 +1,16 @@
+// Панель инструментов
+@require 'icons.styl'
+
+// Подключаем переопределения по mediaquery
+@require 'media.styl'
+
 // переменные подключаются в global.styl
 body
     color $black
     font-family Arial
 
 .content
+    display: flex
     overflow: hidden
 
     &__left,
@@ -11,72 +18,9 @@ body
         vertical-align: top
         display: inline-block
 
-.tools
-    width: 64px
-    cursor: pointer
-
-    ul
-        list-style: none
-        overflow: hidden
-        padding-bottom: 1px;
-
-    &__item
-        box-sizing: border-box
-        width: 32px
-        height: 32px
-        border: 1px solid $black
-
-        // схлопываем рамки
-        margin: 0 0 -1px -1px;
-
-        float: left
-
-        background: url(/public/images/tools-sprite.png)
-
-        &_type_ellipse
-            background-position: 32px 0;
-
-        &_type_triangle
-            background-position: 0 -32px;
-
-        &_type_text
-            background-position: 32px -32px;
-
-        &_type_line
-            background-position: 0 -64px;
-
-        &_type_arrow
-            background-position: 32px -64px;
-
-        &_type_move
-            background-position: 0 -96px;
-
-        &_type_cursor
-            background-position: 32px -96px;
-
-        &_type_color
-            .jscolor
-                width: 100%;
-                height: 100%;
-                box-sizing: border-box;
-                border: 1px solid $main_color;
-                // перебиваем инлайн стили из библиотеки
-                color: transparent !important;
-
-        .active&
-            position: relative;
-
-            &:after
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                background: $black;
-                opacity: .2;
-                content: '';
-
 #canvas
-    margin-left: 2px;
-    box-shadow: 0 0 2px 2px $blue inset;
+    margin-left: 2px
+    box-shadow: 0 0 2px 2px $blue inset
 
 .meta
     font-size: 14px
@@ -134,32 +78,37 @@ body
 
         border-radius 0
 
-.side-menu_right
+.side-menu-wrapper
+    flex-grow: 1
+    padding-right: 2px
+
+    text-align: right
+
+.userlist
     display: inline-block
     vertical-align: top
-    margin: 22px 0 0 31px
     padding: 0 0 8px
+
+    text-align: left
 
     border: 3px solid $main_color
 
     border-radius: 6px
 
-    width: 200px;
+    width: 200px
 
     &__title
-        line-height: 150%;
+        line-height: 150%
         text-align: center
 
-        border-bottom: 2px solid black;
+        border-bottom: 2px solid black
 
-        //margin-bottom: 5px;
+    &__item
+        line-height: 200%
+        width: 100%
+        padding-left: 5px
 
-.user
-    line-height: 200%;
-    width: 100%;
-    padding-left: 5px;
+        cursor: pointer
 
-    cursor: pointer
-
-    & + &
-        border-top: 1px dashed $dark_blue;
+        & + &
+            border-top: 1px dashed $dark_blue

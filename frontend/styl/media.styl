@@ -1,0 +1,36 @@
+@media (max-width: 1075px)
+    .userlist
+        position: relative
+        padding: 0
+
+        &__title
+            float: left
+
+            height: 100%
+            max-width: 10px
+            padding: 8px 6px
+
+            border: 0
+            border-right: inherit
+
+            word-wrap: break-word
+            line-height: 95%
+
+        &__content
+            padding-left: 26px
+
+    .side-menu-wrapper
+        position: absolute
+        left: 661px
+
+        &.collapsed
+            left: 839px
+
+            .userlist
+                width: 22px
+
+                border-top-right-radius: 0
+                border-bottom-right-radius: 0
+
+                overflow: hidden
+
